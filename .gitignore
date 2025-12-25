@@ -93,4 +93,4 @@ config/local.*.json
 # Monitoring and metrics
 .metrics/
 .grafana/
-.prometheus/
+.prometheus/.env.tmp
