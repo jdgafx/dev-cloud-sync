@@ -3,3 +3,4 @@ export * from './file-watcher';
 export * from './sync-engine';
 export * from './types';
 export * from './config';
+export * from './rclone-sync';

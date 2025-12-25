@@ -163,6 +163,29 @@ else
     log_info "Git repository already initialized."
 fi
 
+# Step 3.6: Install Rclone (Powering the Sync Engine)
+log_info "Step 3.6: Checking Rclone..."
+if ! command -v rclone &> /dev/null; then
+    log_info "Rclone not found. Installing..."
+    if command -v gum &> /dev/null; then
+        if gum confirm "Install Rclone (requires sudo)?"; then
+             curl https://rclone.org/install.sh | sudo bash
+             log_success "Rclone installed successfully."
+        else
+             log_warn "Rclone installation skipped. Sync capabilities may be limited."
+        fi
+    else
+        read -p "Install Rclone (requires sudo)? (y/n) " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+             curl https://rclone.org/install.sh | sudo bash
+             log_success "Rclone installed successfully."
+        fi
+    fi
+else
+    log_success "Rclone is already installed."
+fi
+
 # Step 4: Infrastructure Setup (Docker)
 log_info "Step 4: Starting Docker Infrastructure..."
 
