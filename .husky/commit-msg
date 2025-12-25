@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run commitlint
+npx --no-install commitlint --edit $1
+
+echo "Commit message validation passed!"

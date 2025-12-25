@@ -1,0 +1,30 @@
+{
+  "name": "@dev-cloud-sync/sync-engine",
+  "version": "0.1.0",
+  "description": "Core file synchronization engine for the dev-cloud-sync platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "dependencies": {
+    "chokidar": "^3.5.3",
+    "crypto": "^1.0.1",
+    "fs-extra": "^11.1.1",
+    "minimatch": "^9.0.3",
+    "p-queue": "^7.4.1",
+    "rxjs": "^7.8.1",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.2",
+    "@types/minimatch": "^5.1.2",
+    "@types/ws": "^8.5.7"
+  }
+}

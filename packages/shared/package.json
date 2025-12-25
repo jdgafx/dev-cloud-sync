@@ -1,0 +1,23 @@
+{
+  "name": "@dev-cloud-sync/shared",
+  "version": "0.1.0",
+  "description": "Shared utilities and types for the dev-cloud-sync platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "dependencies": {
+    "zod": "^3.22.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.5"
+  }
+}

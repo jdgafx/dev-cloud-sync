@@ -1,0 +1,37 @@
+module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  roots: ['<rootDir>/packages', '<rootDir>/apps', '<rootDir>/tools'],
+  testMatch: [
+    '**/__tests__/**/*.+(ts|tsx|js)',
+    '**/*.(test|spec).+(ts|tsx|js)',
+  ],
+  transform: {
+    '^.+\\.(ts|tsx)$': 'ts-jest',
+  },
+  collectCoverageFrom: [
+    'packages/*/src/**/*.{ts,tsx}',
+    'apps/*/src/**/*.{ts,tsx}',
+    'tools/*/src/**/*.{ts,tsx}',
+    '!**/*.d.ts',
+    '!**/node_modules/**',
+    '!**/dist/**',
+    '!**/build/**',
+    '!**/coverage/**',
+  ],
+  coverageDirectory: 'coverage',
+  coverageReporters: ['text', 'lcov', 'html'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
+  moduleNameMapping: {
+    '^@shared/(.*)$': '<rootDir>/packages/shared/src/$1',
+    '^@sync-engine/(.*)$': '<rootDir>/packages/sync-engine/src/$1',
+    '^@api-server/(.*)$': '<rootDir>/packages/api-server/src/$1',
+    '^@database/(.*)$': '<rootDir>/packages/database/src/$1',
+  },
+  testTimeout: 10000,
+  verbose: true,
+  forceExit: true,
+  clearMocks: true,
+  resetMocks: true,
+  restoreMocks: true,
+};

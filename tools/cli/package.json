@@ -1,0 +1,32 @@
+{
+  "name": "@dev-cloud-sync/cli",
+  "version": "0.1.0",
+  "description": "Command-line interface for the dev-cloud-sync platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "dev-cloud-sync": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write src/**/*.ts",
+    "link": "npm link"
+  },
+  "dependencies": {
+    "commander": "^11.0.0",
+    "chalk": "^5.3.0",
+    "ora": "^7.0.1",
+    "inquirer": "^9.2.11",
+    "configstore": "^6.0.0",
+    "axios": "^1.5.1"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.4",
+    "@types/configstore": "^6.0.0"
+  }
+}
