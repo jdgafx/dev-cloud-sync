@@ -200,7 +200,7 @@ else
 fi
 log_success "Build complete."
 
-# Step 7: Final Summary
+# Step 7: Final Summary (Enhanced)
 echo ""
 if command -v gum &> /dev/null; then
     gum style \
@@ -217,6 +217,16 @@ if command -v gum &> /dev/null; then
 else
     echo "Setup Complete!"
     echo "Run 'npm run dev' to start."
+fi
+
+# Step 8: Auto-Launch Dashboard
+log_info "Attempting to launch dashboard..."
+if command -v xdg-open &> /dev/null; then
+    xdg-open "http://localhost:3000" &> /dev/null &
+elif command -v sensible-browser &> /dev/null; then
+    sensible-browser "http://localhost:3000" &> /dev/null &
+else
+    log_warn "Could not auto-open browser. Please visit http://localhost:3000"
 fi
 
 echo ""
