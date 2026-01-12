@@ -9,7 +9,7 @@ const config = {
     isProd: process.env.NODE_ENV === 'production',
 
     server: {
-        port: parseInt(process.env.PORT || '8888', 10),
+        port: parseInt(process.env.PORT || '3005', 10),
         host: process.env.HOST || '0.0.0.0',
     },
 

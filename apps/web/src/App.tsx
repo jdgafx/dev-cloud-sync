@@ -745,7 +745,7 @@ const ActivityView = ({
 
 function App() {
   const [currentView, setCurrentView] = useState('dashboard');
-  const [init, setInit] = useState(false);
+  const [init] = useState(true);
   const [showCreateJob, setShowCreateJob] = useState(false);
   const [showRemoteConfig, setShowRemoteConfig] = useState(false);
 
@@ -764,7 +764,6 @@ function App() {
   const socketRef = useRef<Socket | null>(null);
 
   const fetchData = async () => {
-    setInit(true); // Force UI to show immediately
     try {
       const [jobsRes, remotesRes, logsRes] = await Promise.all([
         axios.get(`${API_URL}/jobs`),
@@ -781,7 +780,6 @@ function App() {
   };
 
   useEffect(() => {
-    setInit(true); // Double ensure init is true
     fetchData();
 
     const socket = io();

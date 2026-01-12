@@ -1,0 +1,48 @@
+[Unit]
+Description=CloudSync - Cloud File Synchronization Platform
+Documentation=https://github.com/code-yeongyu/dev-cloud-sync
+After=network.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+User=chris
+Group=chris
+WorkingDirectory=/home/chris/dev/dev-cloud-sync
+ExecStart=/bin/bash /home/chris/dev/dev-cloud-sync/scripts/start-cloudsync.sh
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=mixed
+Restart=always
+RestartSec=5
+TimeoutStartSec=60
+TimeoutStopSec=30
+
+# Dynamic port assignment - will be overridden by setup script
+Environment=CS_WEB_PORT=8888
+Environment=CS_API_PORT=3001
+Environment=CS_RCLONE_UI_PORT=5572
+Environment=NODE_ENV=production
+Environment=NODE_OPTIONS=--max-old-space-size=512
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/home/chris/dev/dev-cloud-sync/data /home/chris/.config/rclone
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=4096
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=cloudsync
+
+# Runtime directory
+RuntimeDirectory=cloudsync
+RuntimeDirectoryMode=0755
+
+[Install]
+WantedBy=multi-user.target

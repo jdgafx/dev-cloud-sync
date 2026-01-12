@@ -64,13 +64,13 @@ export const RemoteConfigModal: React.FC<RemoteConfigModalProps> = ({ onClose, o
     };
 
     return (
-        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-xl animate-in zoom-in-95 duration-200">
-            <Card className="w-full max-w-lg bg-slate-900 border-slate-800 shadow-3xl overflow-hidden overflow-y-auto max-h-[90vh]">
+        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+            <Card className="w-full max-w-md bg-zinc-900 border-zinc-800 shadow-2xl overflow-hidden overflow-y-auto max-h-[90vh]">
 
                 {/* Progress Bar */}
-                <div className="h-1 w-full bg-slate-800">
+                <div className="h-1 w-full bg-zinc-800">
                     <div className={cn(
-                        "h-full bg-cyan-500 transition-all duration-500",
+                        "h-full bg-white transition-all duration-300",
                         step === 1 ? "w-1/2" : "w-full"
                     )} />
                 </div>
@@ -78,14 +78,14 @@ export const RemoteConfigModal: React.FC<RemoteConfigModalProps> = ({ onClose, o
                 <div className="p-8">
                     <div className="flex items-center justify-between mb-8">
                         <div className="flex items-center gap-3">
-                            <Cloud className="w-6 h-6 text-cyan-500" />
+                            <div className="w-4 h-4 rounded bg-white" />
                             <div>
-                                <h2 className="text-xl font-bold text-white">Storage Gateway</h2>
-                                <p className="text-[10px] text-slate-500 uppercase tracking-widest font-mono">Step {step} of 2</p>
+                                <h2 className="text-lg font-semibold text-white">Add Remote</h2>
+                                <p className="text-[10px] text-zinc-500 uppercase font-medium">Step {step} of 2</p>
                             </div>
                         </div>
-                        <Button variant="ghost" size="icon" onClick={onClose} className="text-slate-500 hover:text-white">
-                            <X className="w-5 h-5" />
+                        <Button variant="ghost" size="icon" onClick={onClose} className="text-zinc-500 hover:text-white w-8 h-8">
+                            <X className="w-4 h-4" />
                         </Button>
                     </div>
 
@@ -103,89 +103,87 @@ export const RemoteConfigModal: React.FC<RemoteConfigModalProps> = ({ onClose, o
                     )}
 
                     {step === 1 ? (
-                        <div className="space-y-6 animate-in slide-in-from-right-4 duration-300">
+                        <div className="space-y-6 animate-in fade-in duration-300">
                             <div className="space-y-4">
-                                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Select Protocol</label>
+                                <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Select Remote Type</label>
                                 <div className="grid grid-cols-1 gap-2">
                                     {REMOTE_TYPES.map((t) => (
-                                        <button
-                                            key={t.id}
-                                            onClick={() => setType(t.id)}
-                                            className={cn(
-                                                "flex items-center gap-4 p-4 rounded-xl border text-left transition-all",
-                                                type === t.id
-                                                    ? "bg-cyan-500/10 border-cyan-500/50 shadow-[0_0_20px_rgba(6,182,212,0.05)]"
-                                                    : "bg-slate-950/50 border-slate-800 hover:border-slate-700 hover:bg-slate-950"
-                                            )}
-                                        >
-                                            <div className={cn(
-                                                "p-2.5 rounded-lg",
-                                                type === t.id ? "bg-cyan-500 text-slate-950" : "bg-slate-800 text-slate-400"
-                                            )}>
-                                                <t.icon className="w-4 h-4" />
-                                            </div>
-                                            <div className="flex-1">
-                                                <p className={cn("text-sm font-bold", type === t.id ? "text-white" : "text-slate-300")}>{t.label}</p>
-                                                <p className="text-[10px] text-slate-500">{t.desc}</p>
-                                            </div>
-                                            {type === t.id && <Check className="w-4 h-4 text-cyan-500" />}
-                                        </button>
-                                    ))}
+                                         <button
+                                             key={t.id}
+                                             onClick={() => setType(t.id)}
+                                             className={cn(
+                                                 "flex items-center gap-4 p-3 rounded-lg border text-left transition-all",
+                                                 type === t.id
+                                                     ? "bg-zinc-800 border-zinc-700"
+                                                     : "bg-zinc-950 border-zinc-900 hover:border-zinc-800"
+                                             )}
+                                         >
+                                             <div className={cn(
+                                                 "p-2 rounded-lg",
+                                                 type === t.id ? "bg-white text-black" : "bg-zinc-800 text-zinc-400"
+                                             )}>
+                                                 <t.icon className="w-3.5 h-3.5" />
+                                             </div>
+                                             <div className="flex-1">
+                                                 <p className={cn("text-sm font-semibold", type === t.id ? "text-white" : "text-zinc-300")}>{t.label}</p>
+                                                 <p className="text-[10px] text-zinc-500">{t.desc}</p>
+                                             </div>
+                                             {type === t.id && <Check className="w-4 h-4 text-white" />}
+                                         </button>
+                                     ))}
                                 </div>
                             </div>
                             <Button
                                 disabled={!type}
                                 onClick={() => setStep(2)}
-                                className="w-full h-12 bg-slate-100 text-slate-950 hover:bg-white rounded-xl font-bold"
+                                className="w-full h-10 bg-white text-black hover:bg-zinc-200 rounded-lg font-medium"
                             >
-                                Continue Protocol Setup
+                                Continue
                             </Button>
                         </div>
                     ) : (
-                        <div className="space-y-6 animate-in slide-in-from-right-4 duration-300">
+                        <div className="space-y-6 animate-in fade-in duration-300">
                             <div className="space-y-4">
                                 <div>
-                                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Gateway Alias</label>
+                                    <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest ml-1">Remote Name</label>
                                     <input
                                         autoFocus
                                         type="text"
-                                        placeholder="e.g. dropbox-main"
+                                        placeholder="e.g. dropbox"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-4 text-lg text-white font-mono placeholder:text-slate-800 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500/50 transition-all mt-2"
+                                        className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-white font-mono placeholder:text-zinc-800 focus:outline-none focus:ring-1 focus:ring-zinc-700 transition-all mt-2"
                                     />
-                                    <p className="text-[10px] text-slate-600 mt-2 px-1">Alphanumeric characters only. This will be your rclone remote name.</p>
+                                    <p className="text-[10px] text-zinc-600 mt-2 px-1">Use a unique identifier for this remote connection.</p>
                                 </div>
 
-                                <div className="p-4 rounded-xl bg-orange-500/5 border border-orange-500/10 flex gap-4">
-                                    <Shield className="w-5 h-5 text-orange-500 shrink-0" />
+                                <div className="p-4 rounded-lg bg-zinc-800/20 border border-zinc-800 flex gap-4">
+                                    <Shield className="w-4 h-4 text-zinc-400 shrink-0" />
                                     <div>
-                                        <p className="text-[10px] font-bold text-orange-500 uppercase tracking-widest">Authentication Notice</p>
-                                        <p className="text-[11px] text-orange-400/70 mt-1 leading-relaxed">
-                                            Finalizing this connection may require an OAuth handshake in your default browser.
+                                        <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Authentication</p>
+                                        <p className="text-[11px] text-zinc-500 mt-1 leading-relaxed">
+                                            Finalizing this connection may require an authorization step in your browser.
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="flex items-center gap-3 pt-4">
-                                <Button variant="ghost" onClick={() => setStep(1)} className="text-slate-500">Back</Button>
+                                <Button variant="ghost" onClick={() => setStep(1)} className="text-zinc-500 hover:text-white">Back</Button>
                                 <Button
                                     disabled={!name || loading}
                                     onClick={handleCreateRemote}
-                                    className="flex-1 h-12 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-bold shadow-xl shadow-cyan-900/20"
+                                    className="flex-1 h-10 bg-white text-black hover:bg-zinc-200 rounded-lg font-medium"
                                 >
-                                    {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Authorize & Save Gateway"}
+                                    {loading ? <Loader2 className="w-4 h-4 animate-spin text-black" /> : "Save Remote"}
                                 </Button>
                             </div>
                         </div>
                     )}
                 </div>
 
-                <div className="px-8 py-4 bg-slate-950/50 border-t border-slate-800 flex items-center justify-center gap-2">
-                    <span className="text-[10px] text-slate-600 uppercase font-bold tracking-widest">CloudSync Core</span>
-                    <span className="text-slate-800 text-[8px]">•</span>
-                    <span className="text-[10px] text-slate-600 uppercase font-bold tracking-widest">Alpha Build 77</span>
+                <div className="px-8 py-4 bg-zinc-950/50 border-t border-zinc-800 flex items-center justify-center">
+                    <span className="text-[10px] text-zinc-600 uppercase font-medium tracking-tight">CloudSync Build 77</span>
                 </div>
             </Card>
         </div>

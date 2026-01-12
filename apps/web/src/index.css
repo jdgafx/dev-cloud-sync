@@ -5,29 +5,40 @@
   @tailwind utilities;
 
   :root {
-    /* Ultra-Premium Dark Mode Palette */
-    --background: 0 0% 0%;
-    /* Pure Black */
+    /* Lovable-inspired Sophisticated Dark Palette */
+    --background: 240 10% 4%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 3%;
-    --card-hover: 0 0% 5%;
-    --border: 0 0% 8%;
-    --border-hover: 0 0% 15%;
+    
+    --card: 240 10% 6%;
+    --card-foreground: 0 0% 98%;
+    
+    --popover: 240 10% 4%;
+    --popover-foreground: 0 0% 98%;
+    
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    
+    /* Brand Accents (Subtle) */
+    --brand: 211 100% 50%;
+    
+    --radius: 0.75rem;
 
-    /* High-Contrast Accents */
-    --primary: 190 90% 50%;
-    /* Cyan / Cloud Blue */
-    --primary-glow: 190 100% 50%;
-    --secondary: 211 100% 50%;
-    /* Electric Blue */
-    --accent: 275 100% 65%;
-    /* Cyber Purple */
-
-    --danger: 0 84% 60%;
-    --warning: 38 92% 50%;
-    --success: 158 64% 52%;
-
-    /* Fluid Typography Tokens */
     --font-sans: 'Plus Jakarta Sans', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
   }
@@ -37,7 +48,7 @@
     background: hsl(var(--background));
     color: hsl(var(--foreground));
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    letter-spacing: -0.01em;
   }
 
   /* === THE GLASS CANARY === */

@@ -23,13 +23,13 @@ interface CreateJobModalProps {
     onSuccess: () => void;
 }
 
-const API_URL = 'http://localhost:8888/api/v1';
+const API_URL = '/api/v1';
 
 export const CreateJobModal: React.FC<CreateJobModalProps> = ({ onClose, onSuccess }) => {
     const [name, setName] = useState('');
     const [source, setSource] = useState('');
     const [destination, setDestination] = useState('');
-    const [interval, setIntervalVal] = useState(60);
+    const [interval, setIntervalVal] = useState(5);
 
     const [browserType, setBrowserType] = useState<'source' | 'destination' | null>(null);
     const [loading, setLoading] = useState(false);
@@ -38,7 +38,7 @@ export const CreateJobModal: React.FC<CreateJobModalProps> = ({ onClose, onSucce
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!name || !source || !destination) {
-            setError("Mission parameters incomplete. Source, Destination, and Name are required.");
+            setError("Parameters incomplete. Source, Destination, and Name are required.");
             return;
         }
 
@@ -54,7 +54,7 @@ export const CreateJobModal: React.FC<CreateJobModalProps> = ({ onClose, onSucce
             onSuccess();
             onClose();
         } catch (e: any) {
-            setError(e.response?.data?.error?.message || "Internal Engine Error: Failed to deploy mission.");
+            setError(e.response?.data?.error?.message || "Internal Error: Failed to create sync job.");
         } finally {
             setLoading(false);
         }
@@ -62,62 +62,55 @@ export const CreateJobModal: React.FC<CreateJobModalProps> = ({ onClose, onSucce
 
     return (
         <>
-            <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-300">
-                <Card className="w-full max-w-xl bg-slate-900 border-slate-800 shadow-3xl overflow-hidden outline-none">
+            <div className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+                <Card className="w-full max-w-lg bg-zinc-900 border-zinc-800 shadow-2xl overflow-hidden outline-none">
                     <form onSubmit={handleSubmit}>
-                        {/* Header */}
-                        <div className="px-8 py-6 border-b border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950">
-                            <div className="flex items-center justify-between mb-2">
+                        <div className="px-6 py-4 border-b border-zinc-800">
+                            <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-3">
-                                    <div className="p-2.5 bg-cyan-500/10 rounded-xl border border-cyan-500/20 shadow-[0_0_15px_rgba(6,182,212,0.1)]">
-                                        <Zap className="w-5 h-5 text-cyan-400" />
-                                    </div>
-                                    <div>
-                                        <h2 className="text-xl font-bold text-white tracking-tight">Deploy New Mission</h2>
-                                        <p className="text-xs text-slate-500 font-medium uppercase tracking-widest">Initialization Protocol 1.0.4</p>
-                                    </div>
+                                    <h2 className="text-lg font-semibold text-white tracking-tight">New Sync Job</h2>
                                 </div>
-                                <Button type="button" variant="ghost" size="icon" onClick={onClose} className="text-slate-500 hover:text-white hover:bg-slate-800">
-                                    <X className="w-5 h-5" />
+                                <Button type="button" variant="ghost" size="icon" onClick={onClose} className="text-zinc-500 hover:text-white hover:bg-zinc-800 w-8 h-8">
+                                    <X className="w-4 h-4" />
                                 </Button>
                             </div>
                         </div>
 
-                        <div className="p-8 space-y-6">
+                        <div className="px-6 py-6 space-y-6">
                             {error && (
-                                <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-bold animate-in slide-in-from-top-2">
-                                    CRITICAL ERROR: {error}
+                                <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-medium">
+                                    {error}
                                 </div>
                             )}
 
                             <div className="space-y-2">
-                                <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Mission Identifier</label>
+                                <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest ml-1">Job Name</label>
                                 <input
                                     autoFocus
                                     type="text"
-                                    placeholder="e.g. Daily S3 Archive"
+                                    placeholder="e.g. Daily Backup"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder:text-slate-700 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500/50 transition-all font-medium"
+                                    className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-700 focus:outline-none focus:ring-1 focus:ring-zinc-700 transition-all"
                                 />
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Source Sector</label>
+                                    <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest ml-1">Source Path</label>
                                     <div className="relative group">
                                         <input
                                             readOnly
                                             type="text"
-                                            placeholder="Select path..."
+                                            placeholder="Select..."
                                             value={source}
                                             onClick={() => setBrowserType('source')}
-                                            className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-4 pr-12 py-3 text-sm text-cyan-400 font-mono cursor-pointer group-hover:border-cyan-500/30 transition-all truncate"
+                                            className="w-full bg-zinc-950 border border-zinc-800 rounded-lg pl-3 pr-10 py-2 text-sm text-zinc-100 font-mono cursor-pointer hover:border-zinc-700 transition-all truncate"
                                         />
                                         <button
                                             type="button"
                                             onClick={() => setBrowserType('source')}
-                                            className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-500 hover:text-cyan-400 hover:border-cyan-500/50 transition-all"
+                                            className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-zinc-500 hover:text-white"
                                         >
                                             <FolderInput className="w-4 h-4" />
                                         </button>
@@ -125,20 +118,20 @@ export const CreateJobModal: React.FC<CreateJobModalProps> = ({ onClose, onSucce
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Target Destination</label>
+                                    <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest ml-1">Destination</label>
                                     <div className="relative group">
                                         <input
                                             readOnly
                                             type="text"
-                                            placeholder="Select path..."
+                                            placeholder="Select..."
                                             value={destination}
                                             onClick={() => setBrowserType('destination')}
-                                            className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-4 pr-12 py-3 text-sm text-blue-400 font-mono cursor-pointer group-hover:border-blue-500/30 transition-all truncate"
+                                            className="w-full bg-zinc-950 border border-zinc-800 rounded-lg pl-3 pr-10 py-2 text-sm text-zinc-100 font-mono cursor-pointer hover:border-zinc-700 transition-all truncate"
                                         />
                                         <button
                                             type="button"
                                             onClick={() => setBrowserType('destination')}
-                                            className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-500 hover:text-blue-400 hover:border-blue-500/50 transition-all"
+                                            className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-zinc-500 hover:text-white"
                                         >
                                             <FolderInput className="w-4 h-4" />
                                         </button>
@@ -146,50 +139,33 @@ export const CreateJobModal: React.FC<CreateJobModalProps> = ({ onClose, onSucce
                                 </div>
                             </div>
 
-                            <div className="space-y-2">
+                            <div className="space-y-3">
                                 <div className="flex items-center justify-between ml-1">
-                                    <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Sync Interval</label>
-                                    <span className="text-xs font-mono text-cyan-500 font-bold">{interval} MINUTES</span>
+                                    <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Interval</label>
+                                    <span className="text-[10px] font-mono text-zinc-400">{interval} MIN</span>
                                 </div>
-                                <div className="relative flex items-center gap-4">
-                                    <Clock className="w-4 h-4 text-slate-700" />
-                                    <input
-                                        type="range"
-                                        min="1"
-                                        max="1440"
-                                        step="15"
-                                        value={interval}
-                                        onChange={(e) => setIntervalVal(parseInt(e.target.value))}
-                                        className="flex-1 accent-cyan-500 h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer"
-                                    />
-                                </div>
+                                <input
+                                    type="range"
+                                    min="1"
+                                    max="1440"
+                                    step="1"
+                                    value={interval}
+                                    onChange={(e) => setIntervalVal(parseInt(e.target.value))}
+                                    className="w-full accent-white h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer"
+                                />
                             </div>
                         </div>
 
                         {/* Footer */}
-                        <div className="p-8 border-t border-slate-800 bg-slate-950/50 flex items-center justify-between">
-                            <div className="flex flex-col">
-                                <span className="text-[10px] font-bold text-slate-600 uppercase tracking-tight">Status</span>
-                                <div className="flex items-center gap-2 mt-0.5">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                    <span className="text-[10px] font-bold text-emerald-500/80 uppercase">Validation Passed</span>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-4">
-                                <Button type="button" variant="ghost" onClick={onClose} className="text-slate-400 hover:text-white">Abort</Button>
-                                <Button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white shadow-xl shadow-cyan-950/40 px-10 h-12 rounded-xl transition-all active:scale-95"
-                                >
-                                    {loading ? "INITIALIZING..." : (
-                                        <>
-                                            DEPLOY MISSION
-                                            <ArrowRight className="w-4 h-4 ml-2" />
-                                        </>
-                                    )}
-                                </Button>
-                            </div>
+                        <div className="px-6 py-4 border-t border-zinc-800 flex items-center justify-end gap-3">
+                            <Button type="button" variant="ghost" onClick={onClose} className="text-zinc-500 hover:text-white text-sm">Cancel</Button>
+                            <Button
+                                type="submit"
+                                disabled={loading}
+                                className="bg-white text-black hover:bg-zinc-200 px-6 h-9 rounded-lg font-medium text-sm transition-all"
+                            >
+                                {loading ? "Creating..." : "Create Sync Job"}
+                            </Button>
                         </div>
                     </form>
                 </Card>

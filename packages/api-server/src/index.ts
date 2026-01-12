@@ -1,5 +1,6 @@
 import express from 'express';
 import { createServer } from 'http';
+import net from 'net';
 import { execSync } from 'child_process';
 import { Server } from 'socket.io';
 import cors from 'cors';
@@ -48,7 +49,27 @@ export const io = new Server(httpServer, {
   },
 });
 
-function startServer() {
+async function getAvailablePort(start: number, step: number = 5): Promise<number> {
+    const tryPort = (port: number): Promise<boolean> => {
+        return new Promise((resolve) => {
+            const server = net.createServer();
+            server.unref();
+            server.on('error', () => resolve(false));
+            server.listen(port, () => {
+                server.close(() => resolve(true));
+            });
+        });
+    };
+
+    let port = start;
+    while (port < 65535) {
+        if (await tryPort(port)) return port;
+        port += step;
+    }
+    throw new Error('No available ports found.');
+}
+
+async function startServer() {
     // === MIDDLEWARE STACK ===
 
     // Request ID for correlation
@@ -216,8 +237,11 @@ process.on('SIGINT', () => {
 });
 
     // === START SERVER ===
-    httpServer.listen(config.server.port, () => {
-        const port = config.server.port;
+    const desiredPort = config.server.port;
+    const port = await getAvailablePort(desiredPort, 5);
+    
+    httpServer.listen(port, () => {
+
         logger.info(`🚀 CloudSync API Server running`, {
             port,
             env: config.env,

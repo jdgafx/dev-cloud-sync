@@ -5,22 +5,314 @@
     "source": "/home/chris/dev",
     "destination": "backup:DEV-CLOUD-SYNC",
     "intervalMinutes": 1,
-    "status": "running",
+    "status": "idle",
     "progress": 0,
-    "bytesTransferred": 0,
-    "filesTransferred": 0,
+    "bytesTransferred": 363874874,
+    "filesTransferred": 3091,
     "speed": 0,
-    "totalFiles": 0,
-    "totalBytes": 0,
+    "totalFiles": 165898,
+    "totalBytes": 9992911204,
     "nextRun": "2025-12-31T14:18:03.968Z",
     "lastError": null,
-    "startedAt": "2026-01-12T16:36:34.294Z",
-    "lastSpeed": 0,
+    "startedAt": "2026-01-12T18:34:01.358Z",
+    "lastSpeed": 73492.63981829229,
     "lastRun": "2025-12-31T14:17:03.968Z",
-    "eta": "606h 5m",
-    "_lastCheckTime": 1768235616683,
-    "_lastBytes": 0,
-    "transferring": [],
-    "diffStatus": "checking"
+    "eta": "12h 24m",
+    "_lastCheckTime": 1768244541169,
+    "_lastBytes": 354237049,
+    "transferring": [
+      {
+        "name": "cloud-sync-system3/goose-recipes/documentation/docs/assets/goose-in-action.gif",
+        "size": 9612132,
+        "bytes": 9612132,
+        "percentage": 100,
+        "speed": 11141691.677703546,
+        "speedAvg": 1201516.8123943713,
+        "eta": 0
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/worktrees/tasks/008-pending/atc_bootcamp/9_more_indicators/9_vwma.py",
+        "size": 11501,
+        "bytes": 11501,
+        "percentage": 100,
+        "speed": 91981.35484112962,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/worktrees/tasks/008-pending/atc_bootcamp/9_more_indicators/pandas_ta_review.py",
+        "size": 692,
+        "bytes": 692,
+        "percentage": 100,
+        "speed": 5533.162373008626,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/worktrees/tasks/008-pending/atc_bootcamp/9_more_indicators/talib_review.py",
+        "size": 1378,
+        "bytes": 1378,
+        "percentage": 100,
+        "speed": 11009.963617583217,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/FeatureCard.tsx",
+        "size": 2871,
+        "bytes": 2871,
+        "percentage": 100,
+        "speed": 22913.33629517402,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/FeatureDetailPanel.tsx",
+        "size": 9251,
+        "bytes": 9251,
+        "percentage": 100,
+        "speed": 74067.44178846315,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/PhaseCard.tsx",
+        "size": 5314,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/README.md",
+        "size": 5255,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/RoadmapEmptyState.tsx",
+        "size": 900,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/RoadmapHeader.tsx",
+        "size": 5402,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/RoadmapTabs.tsx",
+        "size": 5149,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/hooks.ts",
+        "size": 7542,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/index.ts",
+        "size": 524,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/types.ts",
+        "size": 1539,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/utils.ts",
+        "size": 951,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/Activate.ps1",
+        "size": 9031,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/activate.csh",
+        "size": 961,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/activate.fish",
+        "size": 2232,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/activate",
+        "size": 2254,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/distro",
+        "size": 253,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/dotenv",
+        "size": 253,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/f2py",
+        "size": 257,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/httpx",
+        "size": 245,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/jsonschema",
+        "size": 254,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/mcp",
+        "size": 245,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/normalizer",
+        "size": 274,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/numpy-config",
+        "size": 257,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/openai",
+        "size": 250,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/pip3.13",
+        "size": 262,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/pip3",
+        "size": 262,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/pip",
+        "size": 262,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/pyrsa-decrypt",
+        "size": 253,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      }
+    ],
+    "diffStatus": "checking",
+    "currentFile": "cloud-sync-system3/goose-recipes/documentation/docs/assets/goose-in-action.gif",
+    "currentFileSize": 9612132,
+    "currentFileBytes": 9612132
   }
 ]

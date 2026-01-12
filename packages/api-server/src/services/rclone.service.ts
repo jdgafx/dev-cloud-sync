@@ -67,6 +67,12 @@ export interface SyncStats {
     checks: number;
     elapsedTime: number;
     activeJobs: number;
+    storage?: {
+        total: number;
+        used: number;
+        free: number;
+        percent: number;
+    };
 }
 
 export interface ActivityLogEntry {
@@ -101,6 +107,8 @@ export class RcloneService extends EventEmitter {
     private activityLog: ActivityLogEntry[] = [];
     private maxLogEntries = 1000;
     private analytics: Record<string, { successCount: number; errorCount: number; totalBytes: number; avgSpeed: number }> = {};
+    private storageStats: SyncStats['storage'] | undefined;
+    private storageCheckInterval: NodeJS.Timeout | null = null;
 
     constructor() {
         super();
@@ -112,6 +120,10 @@ export class RcloneService extends EventEmitter {
         // Start subsystems
         this.startNetworkMonitor();
         this.startScheduler();
+
+        // Check storage quota every 5 minutes
+        this.updateStorageStats();
+        this.storageCheckInterval = setInterval(() => this.updateStorageStats(), 5 * 60 * 1000);
 
         // Trigger initial check/sync for all jobs on startup
         this.triggerStartupSync();
@@ -130,38 +142,26 @@ export class RcloneService extends EventEmitter {
     }
 
     private async checkConnectivity() {
+        // ULTRATHINK: User requested "full speed regardless of network connectivity".
+        // We override the check to ALWAYS be online.
+        if (!this.isOnline) {
+            this.isOnline = true;
+            logger.info('Network connectivity check overridden to ONLINE (Ultra Mode).');
+            this.emit('jobs:update', this.jobs);
+            this.triggerStartupSync();
+        }
+        
+        // We still perform the check for logging/analytics, but we don't change state to offline
         try {
-            // Lightweight check against reliable DNS
             await require('dns').promises.resolve('google.com');
-
-            if (!this.isOnline) {
-                this.isOnline = true;
-                logger.info('Network connectivity restored. Resuming operations.');
-                this.addLogEntry('success', 'system', 'Network Monitor', 'Internet connectivity restored. Resuming sync operations.');
-
-                // RECOVERY: Retry failed jobs immediately
-                for (const job of this.jobs) {
-                    if (job.status === 'error') {
-                        logger.info('Retrying job after network recovery', { jobId: job.id });
-                        job.status = 'idle';
-                        // We don't force execute here, the scheduler or startupSync will pick it up
-                        // or we can force it:
-                    }
-                }
-                this.emit('jobs:update', this.jobs);
-                this.triggerStartupSync();
-            }
+            // Online - no op
         } catch (e) {
-            if (this.isOnline) {
-                this.isOnline = false;
-                logger.warn('Network connectivity lost. Pausing operations.');
-                this.addLogEntry('warning', 'system', 'Network Monitor', 'Internet connectivity lost. Pausing sync operations to prevent errors.');
-            }
+            logger.warn('Network connectivity check failed, but proceeding anyway (Ultra Mode).');
         }
     }
 
     private async triggerStartupSync(): Promise<void> {
-        logger.info('System startup: Triggering immediate check/sync for all missions...');
+        logger.info('System startup: Triggering immediate check/sync for all sync jobs...');
         for (const job of this.jobs) {
             this.executeJob(job);
         }
@@ -251,7 +251,51 @@ export class RcloneService extends EventEmitter {
         } else {
             stats.errorCount++;
         }
+        }
         this.saveAnalytics();
+    }
+
+    private async updateStorageStats() {
+        try {
+            // Find the primary remote (assuming first remote or 'backup')
+            // In a better world, we'd loop or ask config, but for now we look for 'backup' or take the first one.
+            const remotes = await this.listRemotes();
+            let targetRemote = remotes.find(r => r.name === 'backup')?.name || remotes[0]?.name;
+            
+            if (targetRemote) {
+                if (!targetRemote.endsWith(':')) targetRemote += ':';
+                
+                const { stdout } = await execAsync(`rclone about "${targetRemote}" --json --timeout 30s`);
+                const data = JSON.parse(stdout);
+                
+                if (data && data.total) {
+                     this.storageStats = {
+                        total: data.total,
+                        used: data.used,
+                        free: data.free,
+                        percent: data.used && data.total ? Math.round((data.used / data.total) * 100) : 0
+                    };
+                    // Emit immediate update just in case
+                     this.emit('stats:update', await this.getStats());
+                }
+            }
+        } catch (e) {
+            logger.warn('Failed to fetch storage stats', { error: (e as Error).message });
+        }
+    }
+
+    public async listRemotes(): Promise<RcloneRemote[]> {
+        try {
+            const { stdout } = await execAsync('rclone listremotes');
+            return stdout.split('\n')
+                .filter(Boolean)
+                .map(line => ({
+                    name: line.replace(':', ''),
+                    type: 'cloud' // Simplified, real implementation would parse 'rclone config dump'
+                }));
+        } catch (e) {
+            return [];
+        }
     }
 
     // === ACTIVITY LOG ===
@@ -325,9 +369,9 @@ export class RcloneService extends EventEmitter {
     public async shutdown(): Promise<void> {
         logger.info('RcloneService shutting down...');
 
-        if (this.schedulerInterval) {
-            clearInterval(this.schedulerInterval);
-            this.schedulerInterval = null;
+        if (this.storageCheckInterval) {
+            clearInterval(this.storageCheckInterval);
+            this.storageCheckInterval = null;
         }
 
         const stopPromises = Array.from(this.activeProcesses.keys()).map((id) => {
@@ -540,6 +584,11 @@ export class RcloneService extends EventEmitter {
                 '--user-agent', 'dev-cloud-sync-ultra-speed',
                 '--copy-links',
                 '--metadata',
+                '--retries', '10',
+                '--retries-sleep', '250ms',
+                '--low-level-retries', '10',
+                '--timeout', '30s',
+                '--contimeout', '10s',
                 '-v'
             ];
 
@@ -590,6 +639,15 @@ export class RcloneService extends EventEmitter {
 
                 for (const line of lines) {
                     if (!line.trim()) continue;
+
+                    // AUTHENTICATION ERROR TRAP
+                    if (line.includes("couldn't fetch token") || line.includes("invalid_client")) {
+                         logger.error('CRITICAL: Rclone Authentication Failed', { jobId: job.id, line });
+                         job.status = 'error';
+                         job.lastError = "Google Drive Auth Failed: Invalid Client/Token. Re-authentication required.";
+                         this.emit('jobs:update', this.jobs);
+                         // Don't kill the process immediately, let it die naturally, but ensure UI knows.
+                    }
 
                     try {
                         const parsed = JSON.parse(line);
@@ -889,7 +947,8 @@ export class RcloneService extends EventEmitter {
             transfers: runningJobs.reduce((sum, j) => sum + (j.filesTransferred || 0), 0),
             checks: 0,
             elapsedTime: 0,
-            activeJobs: runningJobs.length,
+            activeJobs: this.activeProcesses.size,
+            storage: this.storageStats
         };
     }
 
