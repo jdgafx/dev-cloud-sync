@@ -1,0 +1,146 @@
+#!/bin/bash
+
+# CloudSync CLI Wrapper
+# Usage: cloudsync [command] [args]
+
+API_URL="http://localhost:8888/api/v1"
+SERVICE_NAME="dev-cloud-sync"
+
+# Colors
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+function show_help {
+    echo -e "${BLUE}CloudSync CLI${NC}"
+    echo "Usage: cloudsync <command> [args]"
+    echo ""
+    echo "Service Commands:"
+    echo "  start       Start the service"
+    echo "  stop        Stop the service"
+    echo "  restart     Restart the service"
+    echo "  logs        Follow service logs"
+    echo ""
+    echo "Sync Commands:"
+    echo "  monitor     Live dashboard of active syncs (Progress, Speed, ETA)"
+    echo "  list        List all jobs"
+    echo "  run <id>    Trigger a sync job"
+    echo "  config      Edit jobs.json configuration"
+    echo ""
+}
+
+# Pretty print stats using Node.js for flexibility
+function print_stats {
+    curl -s $API_URL/jobs | node -e '
+        const fs = require("fs"); 
+        
+        // Helper for bytes
+        function formatBytes(bytes, decimals = 2) {
+            if (!+bytes) return "0 Bytes";
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB"];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+        }
+
+        // Read from stdin
+        let data = "";
+        process.stdin.on("data", chunk => data += chunk);
+        process.stdin.on("end", () => {
+            try {
+                const response = JSON.parse(data);
+                const jobs = response.data || [];
+                
+                if (jobs.length === 0) {
+                    console.log("No jobs found.");
+                    return;
+                }
+
+                jobs.forEach(job => {
+                    const isRunning = job.status === "running";
+                    const statusColor = isRunning ? "\x1b[32m" : "\x1b[37m"; // Green or White
+                    const reset = "\x1b[0m";
+                    
+                    console.log(`${statusColor}● ${job.name}${reset} [${job.status.toUpperCase()}]`);
+                    
+                    if (isRunning) {
+                        // Progress Bar
+                        const width = 30;
+                        const percent = Math.min(100, Math.max(0, job.progress || 0));
+                        const filled = Math.round((width * percent) / 100);
+                        const empty = width - filled;
+                        const bar = "█".repeat(filled) + "░".repeat(empty);
+                        
+                        console.log(`  ${bar} ${percent.toFixed(1)}%`);
+                        console.log(`  Speed: ${formatBytes(job.speed || 0)}/s`);
+                        console.log(`  Transferred: ${formatBytes(job.bytesTransferred || 0)} / ${formatBytes(job.totalBytes || 0)}`);
+                        if (job.eta) console.log(`  ETA: ${job.eta}`);
+                        if (job.currentFile) console.log(`  File: ${job.currentFile.substring(0, 50)}${job.currentFile.length > 50 ? "..." : ""}`);
+                    } else {
+                        console.log(`  Last Run: ${job.lastRun ? new Date(job.lastRun).toLocaleString() : "Never"}`);
+                        if (job.lastError) console.log(`  \x1b[31mError: ${job.lastError}\x1b[0m`);
+                    }
+                    console.log("");
+                });
+            } catch (e) {
+                console.log("Error parsing stats:", e.message);
+            }
+        });
+    '
+}
+
+case "$1" in
+    start)
+        sudo systemctl start $SERVICE_NAME
+        echo "Service started."
+        ;;
+    stop)
+        sudo systemctl stop $SERVICE_NAME
+        echo "Service stopped."
+        ;;
+    restart)
+        sudo systemctl restart $SERVICE_NAME
+        echo "Service restarted."
+        ;;
+    status)
+        sudo systemctl status $SERVICE_NAME
+        ;;
+    logs)
+        sudo journalctl -u $SERVICE_NAME -f
+        ;;
+    monitor)
+        # Clear screen and loop
+        while true; do
+            clear
+            echo -e "${BLUE}=== CloudSync Dashboard ===${NC}"
+            echo -e "Press [CTRL+C] to exit"
+            echo ""
+            print_stats
+            sleep 1
+        done
+        ;;
+    list)
+        print_stats
+        ;;
+    run)
+        if [ -z "$2" ]; then echo "Error: Job ID required"; exit 1; fi
+        curl -X POST $API_URL/jobs/$2/run
+        echo -e "\nJob triggered."
+        ;;
+    config)
+        EDITOR=${EDITOR:-nano}
+        CONFIG_FILE="./packages/api-server/data/jobs.json"
+        if [ -f "$CONFIG_FILE" ]; then
+            $EDITOR "$CONFIG_FILE"
+            echo "Remember to restart the service to apply changes!"
+        else
+            echo "Config file not found at $CONFIG_FILE"
+        fi
+        ;;
+    *)
+        show_help
+        ;;
+esac

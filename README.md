@@ -1,12 +1,35 @@
-# Dev Cloud Sync
+# CloudSync
 
-**Maximum Development Potential Unlocked** 🚀
+A comprehensive cloud file synchronization platform built with specific focus on reliability, visual fidelity, and ease of use.
 
-A comprehensive cloud file synchronization platform built with modern development practices and intelligent swarm coordination.
+## 🚀 Quick Start (Deployment)
+
+We provide a universal setup script that installs dependencies (Node.js, rclone, Postgres, Redis), builds the project, and configures the systemd service.
+
+```bash
+# Run the setup script
+./tools/setup.sh
+```
+
+Once installed, you can control the service globally:
+
+```bash
+cloudsync status
+cloudsync logs
+cloudsync restart
+```
+
+## 🖥️ Usage
+
+- **Web Interface**: [http://localhost:8888](http://localhost:8888)
+- **CLI Tool**: `cloudsync [start|stop|restart|status|logs|list]`
+
+---
 
 ## 🎯 Project Status: **Ready for Development**
 
 ### Architecture Assessment Complete ✅
+
 - **Current State**: Early-stage with advanced orchestration infrastructure
 - **Swarm Intelligence**: 3 active agents (Architecture Analyzer, Development Strategist, Performance Optimizer)
 - **Development Tools**: Claude Flow v2.0.0 + RUV Swarm + 54 specialized agents
@@ -30,6 +53,7 @@ npx tsc --init --strict
 ## 🏗️ Technical Architecture
 
 ### Core Stack Selection
+
 - **Backend**: Node.js/TypeScript + Express/Fastify
 - **Database**: PostgreSQL + Redis (caching)
 - **Cloud Storage**: AWS S3 + CloudFront
@@ -39,6 +63,7 @@ npx tsc --init --strict
 - **Testing**: Jest + Cypress
 
 ### Development Infrastructure
+
 ```
 /packages/
 ├── sync-engine/      # Core file synchronization
@@ -59,6 +84,7 @@ npx tsc --init --strict
 ## 🚀 Development Roadmap
 
 ### Phase 1: Foundation (Week 1-2) - **P0 Critical**
+
 - [x] Architecture analysis completed
 - [ ] Monorepo structure setup
 - [ ] TypeScript configuration
@@ -66,22 +92,26 @@ npx tsc --init --strict
 - [ ] OpenSpec integration
 
 ### Phase 2: Core Sync Engine (Week 3-4) - **P1 Essential**
+
 - [ ] File system integration
 - [ ] Delta synchronization
 - [ ] Conflict resolution
 - [ ] Database schema design
 
 ### Phase 3: API & Real-time (Week 5-6) - **P1 Essential**
+
 - [ ] REST API implementation
 - [ ] WebSocket integration
 - [ ] Real-time notifications
 
 ### Phase 4: User Interfaces (Week 7-8) - **P2 Enhancement**
+
 - [ ] Web application
 - [ ] Desktop application
 - [ ] Mobile app foundation
 
 ### Phase 5: Advanced Features (Week 9-10) - **P3 Optimization**
+
 - [ ] Performance optimization
 - [ ] Enterprise features
 - [ ] Compliance and security hardening
@@ -89,6 +119,7 @@ npx tsc --init --strict
 ## 🛡️ Security Requirements
 
 ### Core Security Features
+
 - **Encryption**: AES-256-GCM for files, RSA-4096 for keys
 - **Authentication**: OAuth2 + JWT + MFA
 - **Key Management**: User-controlled encryption keys
@@ -96,6 +127,7 @@ npx tsc --init --strict
 - **Network Security**: TLS 1.3, certificate pinning
 
 ### Compliance Standards
+
 - **GDPR**: Data portability and right to deletion
 - **SOC2**: Security, availability, processing integrity
 - **HIPAA**: Healthcare data storage options
@@ -103,12 +135,14 @@ npx tsc --init --strict
 ## 📊 Performance Targets
 
 ### Technical KPIs
+
 - **Sync Latency**: <500ms for files <10MB
 - **Bandwidth Usage**: 80% upload, 90% download efficiency
 - **Memory Usage**: <100MB desktop client footprint
 - **CPU Usage**: <5% idle, <50% during sync
 
 ### Scalability Requirements
+
 - **Concurrent Users**: 10,000+ per region
 - **File Storage**: Petabyte-scale support
 - **API Throughput**: 10,000+ requests/second
@@ -116,11 +150,13 @@ npx tsc --init --strict
 ## 🤖 Swarm Development Coordination
 
 ### Active Agents
+
 1. **Architecture Analyzer** - Code patterns and design assessment
 2. **Development Strategist** - Requirements analysis and planning
 3. **Performance Optimizer** - Bottleneck detection and optimization
 
 ### Available Capabilities (54 total agents)
+
 - Core Development: `coder`, `reviewer`, `tester`, `planner`, `researcher`
 - Swarm Coordination: `hierarchical-coordinator`, `mesh-coordinator`
 - GitHub Integration: `pr-manager`, `code-review-swarm`, `workflow-automation`
@@ -128,6 +164,7 @@ npx tsc --init --strict
 - Specialized Development: `backend-dev`, `mobile-dev`, `ml-developer`
 
 ### Development Workflow
+
 ```bash
 # Swarm coordination setup
 mcp__ruv-swarm__swarm_init { topology: "hierarchical", maxAgents: 8 }
@@ -141,6 +178,7 @@ mcp__ruv-swarm__task_orchestrate {
 ## 🔧 Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - Docker & Docker Compose
 - PostgreSQL 14+
@@ -148,6 +186,7 @@ mcp__ruv-swarm__task_orchestrate {
 - AWS CLI (for cloud deployment)
 
 ### Development Setup
+
 ```bash
 # Clone and setup
 git clone <repository-url>
@@ -157,11 +196,13 @@ npm install
 # Development environment
 npm run dev:setup    # Initialize database and services
 npm run dev:watch    # Start development servers
+npm run ui           # Start Rclone Web UI (http://localhost:5572)
 npm run test         # Run test suite
 npm run lint         # Code quality checks
 ```
 
 ### OpenSpec Integration
+
 ```bash
 # Initialize specifications
 npx openspec init
@@ -173,12 +214,14 @@ npx openspec update
 ## 📈 Success Metrics
 
 ### Technical Targets
+
 - **Code Coverage**: >90% for core components
 - **Build Time**: <5 minutes for full build
 - **Test Execution**: <30 seconds for unit tests
 - **Deployment**: Daily releases to staging
 
 ### Business Targets
+
 - **User Adoption**: 1,000+ users in first 3 months
 - **Sync Reliability**: 99.9% uptime
 - **Customer Satisfaction**: 4.5+ star rating
@@ -187,12 +230,14 @@ npx openspec update
 ## 🧠 Memory Coordination
 
 The swarm intelligence system maintains coordinated state through:
+
 - **Collective Memory**: Technical decisions and patterns stored in shared memory
 - **Agent Coordination**: Real-time collaboration via Claude Flow hooks
 - **Performance Tracking**: Continuous monitoring and optimization
 - **Learning Patterns**: Neural network training from successful implementations
 
 ### Memory Keys Structure
+
 ```
 swarm/coder/status           # Current development progress
 swarm/shared/dependencies    # Technical stack decisions

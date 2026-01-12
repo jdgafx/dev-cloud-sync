@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 
-console.log('Dev Cloud Sync CLI');
+console.log('CloudSync CLI');
 process.exit(0);

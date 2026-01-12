@@ -1,0 +1,15 @@
+[Unit]
+Description=CloudSync Web UI
+After=network.target
+
+[Service]
+Type=simple
+User=chris
+WorkingDirectory=/home/chris/dev/dev-cloud-sync
+ExecStart=/bin/bash /home/chris/dev/dev-cloud-sync/scripts/start-modern-ui.sh
+Restart=always
+RestartSec=10
+Environment=PATH=/usr/bin:/usr/local/bin:/home/chris/.nvm/versions/node/v18.0.0/bin:/home/chris/bin
+
+[Install]
+WantedBy=multi-user.target

@@ -1,9 +1,12 @@
+import logger from '@dev-cloud-sync/api-server/utils/logger';
+
 export class GoogleDriveSync {
     async connect(): Promise<void> {
-        console.log('Connecting to Google Drive...');
+        logger.info('Connecting to Google Drive...');
     }
 
     async uploadFile(path: string): Promise<void> {
-        console.log(`Uploading ${path} to Google Drive`);
+        logger.info(`Uploading ${path} to Google Drive`);
     }
+}
 }

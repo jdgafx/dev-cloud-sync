@@ -1,0 +1,11 @@
+[
+  {
+    "id": "default-dev-sync",
+    "name": "Dev Folder Backup",
+    "source": "/home/chris/dev",
+    "destination": "backup:dev_backup",
+    "intervalMinutes": 15,
+    "status": "idle",
+    "progress": 0
+  }
+]

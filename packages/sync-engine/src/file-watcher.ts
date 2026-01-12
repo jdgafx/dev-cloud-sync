@@ -1,16 +1,17 @@
 import { EventEmitter } from 'events';
 import { SyncConfig, FileChange } from './types';
+import logger from '@dev-cloud-sync/api-server/utils/logger';
 
 export class FileWatcher extends EventEmitter {
-    constructor(private config: SyncConfig) {
-        super();
-    }
+  constructor(private config: SyncConfig) {
+    super();
+  }
 
-    start(): void {
-        console.log('File watcher started');
-    }
+  start(): void {
+    logger.info('File watcher started');
+  }
 
-    stop(): void {
-        console.log('File watcher stopped');
-    }
+  stop(): void {
+    logger.info('File watcher stopped');
+  }
 }

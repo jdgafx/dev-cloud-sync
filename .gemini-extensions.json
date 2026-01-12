@@ -1,0 +1,29 @@
+{
+  "extensions": {
+    "gemini-flow": {
+      "source": "https://github.com/clduab11/gemini-flow",
+      "version": "main",
+      "autoUpdate": true
+    },
+    "conductor": {
+      "source": "https://github.com/gemini-cli-extensions/conductor",
+      "version": "v0.1.1",
+      "autoUpdate": true
+    },
+    "skillz": {
+      "source": "https://github.com/intellectronica/gemini-cli-skillz",
+      "version": "v1.0.1",
+      "autoUpdate": true
+    },
+    "gcloud": {
+      "source": "https://github.com/gemini-cli-extensions/gcloud",
+      "version": "main",
+      "autoUpdate": true
+    },
+    "dev-flow": {
+      "source": "https://github.com/shrwnsan/clix-dev-flow",
+      "version": "main",
+      "autoUpdate": true
+    }
+  }
+}

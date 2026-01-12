@@ -1,0 +1,10 @@
+[
+  {
+    "id": "job_1",
+    "name": "Auto-Dev Backup",
+    "source": "./data/source",
+    "destination": "./data/backup",
+    "intervalMinutes": 60,
+    "status": "idle"
+  }
+]

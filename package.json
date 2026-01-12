@@ -5,11 +5,13 @@
   "private": true,
   "workspaces": [
     "packages/*",
-    "apps/*",
+    "apps/web",
     "tools/*"
   ],
   "scripts": {
+    "extensions:install": "node scripts/manage-extensions.js",
     "build": "npm run build --workspaces --if-present",
+    "start": "npm run dev",
     "dev": "npm run dev --workspaces --if-present",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -20,8 +22,9 @@
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
     "clean": "npm run clean --workspaces --if-present && rm -rf node_modules",
-    "dev:setup": "docker-compose up -d postgres redis && npm run db:migrate",
+    "dev:setup": "docker-compose up -d postgres redis && dotenv -e .env -- npm run migrate -w @dev-cloud-sync/database",
     "dev:watch": "concurrently \"npm run dev --workspaces --if-present\"",
+    "ui": "bash scripts/start-webui.sh",
     "prepare": "husky install"
   },
   "engines": {

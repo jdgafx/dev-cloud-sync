@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1766683587225",
+    "name": "Full Dev Backup",
+    "source": "/home/chris/dev",
+    "destination": "backup:DEV-CLOUD-SYNC",
+    "intervalMinutes": 1,
+    "status": "running",
+    "progress": 0,
+    "bytesTransferred": 0,
+    "filesTransferred": 0,
+    "speed": 0,
+    "totalFiles": 0,
+    "totalBytes": 0,
+    "nextRun": "2025-12-31T14:18:03.968Z",
+    "lastError": null,
+    "startedAt": "2026-01-12T16:36:34.294Z",
+    "lastSpeed": 0,
+    "lastRun": "2025-12-31T14:17:03.968Z",
+    "eta": "606h 5m",
+    "_lastCheckTime": 1768235616683,
+    "_lastBytes": 0,
+    "transferring": [],
+    "diffStatus": "checking"
+  }
+]
