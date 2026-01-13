@@ -5,83 +5,152 @@ import { SyncConfig } from './types';
 const execAsync = promisify(exec);
 
 export class RcloneSync {
-    constructor(private config: SyncConfig) { }
+  private config: SyncConfig;
 
-    /**
-     * Check if rclone is installed and available
-     */
-    async isAvailable(): Promise<boolean> {
-        try {
-            await execAsync('rclone --version');
-            return true;
-        } catch (error) {
-            return false;
-        }
+  constructor(config: SyncConfig) {
+    this.config = config;
+  }
+
+  /**
+   * Check if rclone is installed and available
+   */
+  async isAvailable(): Promise<boolean> {
+    try {
+      await execAsync('rclone --version');
+      return true;
+    } catch (error) {
+      console.error('Failed to check rclone availability:', error);
+      return false;
     }
+  }
 
-    /**
-     * List configured remotes
-     */
-import { exec } from 'child_process';
-import { promisify } from 'util';
-import { SyncConfig } from './types';
-import logger from '@dev-cloud-sync/api-server/utils/logger';
-
-const execAsync = promisify(exec);
-
-export class RcloneSync {
-    constructor(private config: SyncConfig) { }
-
-    /**
-     * Check if rclone is installed and available
-     */
-    async isAvailable(): Promise<boolean> {
-        try {
-            await execAsync('rclone --version');
-            return true;
-        } catch (error) {
-            logger.error('Failed to check rclone availability:', error);
-            return false;
-        }
+  /**
+   * List configured remotes
+   */
+  async listRemotes(): Promise<string[]> {
+    try {
+      const { stdout } = await execAsync('rclone listremotes');
+      return stdout
+        .split('\n')
+        .filter((line) => line.trim().length > 0)
+        .map((line) => line.replace(':', ''));
+    } catch (error) {
+      console.error('Failed to list remotes:', error);
+      return [];
     }
+  }
 
-    /**
-     * List configured remotes
-     */
-    async listRemotes(): Promise<string[]> {
-        try {
-            const { stdout } = await execAsync('rclone listremotes');
-            return stdout.split('\n').filter(line => line.trim().length > 0).map(line => line.replace(':', ''));
-        } catch (error) {
-            logger.error('Failed to list remotes:', error);
-            return [];
-        }
+  /**
+   * Sync a local directory to a remote destination
+   */
+  async syncToRemote(
+    localPath: string,
+    remoteName: string,
+    remotePath: string
+  ): Promise<void> {
+    const command = `rclone sync "${localPath}" "${remoteName}:${remotePath}" --progress`;
+    console.log(`Executing: ${command}`);
+
+    try {
+      await execAsync(command);
+      console.log('Sync completed successfully');
+    } catch (error) {
+      console.error('Sync failed:', error);
+      throw error;
     }
+  }
 
-    /**
-     * Sync a local directory to a remote destination
-     */
-    async syncToRemote(localPath: string, remoteName: string, remotePath: string): Promise<void> {
-        const command = `rclone sync "${localPath}" "${remoteName}:${remotePath}" --progress`;
-        logger.info(`Executing: ${command}`);
+  /**
+   * Sync from remote to local directory
+   */
+  async syncFromRemote(
+    remoteName: string,
+    remotePath: string,
+    localPath: string
+  ): Promise<void> {
+    const command = `rclone sync "${remoteName}:${remotePath}" "${localPath}" --progress`;
+    console.log(`Executing: ${command}`);
 
-        // In a real implementation, we would spawn this and stream stdout/stderr for progress
-        try {
-            await execAsync(command);
-            logger.info('Sync completed successfully');
-        } catch (error) {
-            logger.error('Sync failed:', error);
-            throw error;
-        }
+    try {
+      await execAsync(command);
+      console.log('Sync from remote completed successfully');
+    } catch (error) {
+      console.error('Sync from remote failed:', error);
+      throw error;
     }
+  }
 
-    /**
-     * Mount a remote to a local path (requires FUSE)
-     */
-    async mount(remoteName: string, remotePath: string, mountPoint: string): Promise<void> {
-        const command = `rclone mount "${remoteName}:${remotePath}" "${mountPoint}" --daemon`;
-        logger.info(`Mounting: ${command}`);
-        await execAsync(command);
+  /**
+   * Mount a remote to a local path (requires FUSE)
+   */
+  async mount(
+    remoteName: string,
+    remotePath: string,
+    mountPoint: string
+  ): Promise<void> {
+    const command = `rclone mount "${remoteName}:${remotePath}" "${mountPoint}" --daemon`;
+    console.log(`Mounting: ${command}`);
+    await execAsync(command);
+  }
+
+  /**
+   * Unmount a mounted remote
+   */
+  async unmount(mountPoint: string): Promise<void> {
+    const command = `fusermount -u "${mountPoint}"`;
+    console.log(`Unmounting: ${command}`);
+    await execAsync(command);
+  }
+
+  /**
+   * Get remote info/about
+   */
+  async getRemoteInfo(remoteName: string): Promise<string> {
+    try {
+      const { stdout } = await execAsync(`rclone about "${remoteName}:"`);
+      return stdout;
+    } catch (error) {
+      console.error('Failed to get remote info:', error);
+      throw error;
     }
-}
+  }
+
+  /**
+   * Copy a single file to remote
+   */
+  async copyFile(
+    localPath: string,
+    remoteName: string,
+    remotePath: string
+  ): Promise<void> {
+    const command = `rclone copy "${localPath}" "${remoteName}:${remotePath}"`;
+    console.log(`Copying: ${command}`);
+
+    try {
+      await execAsync(command);
+      console.log('Copy completed successfully');
+    } catch (error) {
+      console.error('Copy failed:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Delete a file from remote
+   */
+  async deleteRemoteFile(
+    remoteName: string,
+    remotePath: string
+  ): Promise<void> {
+    const command = `rclone delete "${remoteName}:${remotePath}"`;
+    console.log(`Deleting: ${command}`);
+
+    try {
+      await execAsync(command);
+      console.log('Delete completed successfully');
+    } catch (error) {
+      console.error('Delete failed:', error);
+      throw error;
+    }
+  }
 }

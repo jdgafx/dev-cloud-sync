@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
-import { SyncConfig, FileChange } from './types';
-import logger from '@dev-cloud-sync/api-server/utils/logger';
+import { SyncConfig } from './types';
+import logger from './utils/logger';
 
 export class FileWatcher extends EventEmitter {
   constructor(private config: SyncConfig) {

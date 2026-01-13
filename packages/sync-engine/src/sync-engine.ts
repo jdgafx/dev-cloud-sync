@@ -2,7 +2,7 @@ import { FileWatcher } from './file-watcher';
 import { GoogleDriveSync } from './google-drive-sync';
 import { SyncConfig } from './types';
 import { defaultConfig } from './config';
-import logger from '@dev-cloud-sync/api-server/utils/logger';
+import logger from './utils/logger';
 
 export class SyncEngine {
   private watcher: FileWatcher;
