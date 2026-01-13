@@ -13,9 +13,7 @@ import {
   HardDrive,
   RefreshCw,
   ArrowRightLeft,
-  Wifi,
   Zap,
-  ChevronRight,
   StopCircle,
 } from 'lucide-react';
 import { io, Socket } from 'socket.io-client';
@@ -33,6 +31,9 @@ import { Button } from './components/ui/button';
 import { Progress } from './components/ui/progress';
 import { CreateJobModal } from './components/CreateJobModal';
 import { RemoteConfigModal } from './components/RemoteConfigModal';
+import { SettingsView } from './components/SettingsView';
+import { Toaster } from './components/ui/toaster';
+import { toast } from './hooks/use-toast';
 
 // --- Constants ---
 const API_URL = '/api/v1';
@@ -804,23 +805,72 @@ function App() {
   const handleRunJob = async (id: string) => {
     try {
       await axios.post(`${API_URL}/jobs/${id}/start`);
-    } catch (e) {}
+      toast({
+        title: 'Sync Started',
+        description: 'Job is now running',
+        variant: 'success',
+      });
+    } catch {
+      toast({
+        title: 'Failed to start job',
+        description: 'Check your connection and try again',
+        variant: 'destructive',
+      });
+    }
   };
   const handleStopJob = async (id: string) => {
     try {
       await axios.post(`${API_URL}/jobs/${id}/stop`);
-    } catch (e) {}
+      toast({
+        title: 'Sync Stopped',
+        description: 'Job has been paused',
+        variant: 'default',
+      });
+    } catch {
+      toast({
+        title: 'Failed to stop job',
+        description: 'Check your connection and try again',
+        variant: 'destructive',
+      });
+    }
   };
   const handleDeleteJob = async (id: string) => {
-    if (!confirm('Abort mission? Data already synced persists.')) return;
+    if (
+      !confirm(
+        'Delete this sync job? Previously synced data will be preserved.'
+      )
+    )
+      return;
     try {
       await axios.delete(`${API_URL}/jobs/${id}`);
-    } catch (e) {}
+      toast({
+        title: 'Job Deleted',
+        description: 'Sync job has been removed',
+        variant: 'default',
+      });
+    } catch {
+      toast({
+        title: 'Failed to delete job',
+        description: 'Check your connection and try again',
+        variant: 'destructive',
+      });
+    }
   };
   const handleClearLogs = async () => {
     try {
       await axios.delete(`${API_URL}/activity`);
-    } catch (e) {}
+      toast({
+        title: 'Logs Cleared',
+        description: 'Activity history has been purged',
+        variant: 'default',
+      });
+    } catch {
+      toast({
+        title: 'Failed to clear logs',
+        description: 'Check your connection and try again',
+        variant: 'destructive',
+      });
+    }
   };
 
   return (
@@ -874,11 +924,7 @@ function App() {
           {currentView === 'activity' && (
             <ActivityView logs={logs} onClear={handleClearLogs} />
           )}
-          {currentView === 'settings' && (
-            <div className='p-32 text-center text-slate-800 text-2xl font-black uppercase tracking-[0.4em] opacity-20'>
-              Settings Module Blocked
-            </div>
-          )}
+          {currentView === 'settings' && <SettingsView />}
         </div>
 
         {/* Global Floating Aesthetics */}
@@ -899,6 +945,7 @@ function App() {
           onSuccess={fetchData}
         />
       )}
+      <Toaster />
     </div>
   );
 }
