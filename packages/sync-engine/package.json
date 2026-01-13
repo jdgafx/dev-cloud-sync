@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@dev-cloud-sync/api-server": "*",
+    "@dev-cloud-sync/shared": "workspace:*",
     "chokidar": "^3.5.3",
     "crypto": "^1.0.1",
     "fs-extra": "^11.1.1",

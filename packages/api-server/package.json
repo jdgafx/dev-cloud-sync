@@ -30,6 +30,7 @@
     "qs": "^6.14.1",
     "redis": "^4.6.8",
     "socket.io": "^4.7.2",
+    "@dev-cloud-sync/shared": "workspace:*",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
     "winston": "^3.10.0"

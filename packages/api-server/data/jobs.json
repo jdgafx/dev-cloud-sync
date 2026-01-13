@@ -5,70 +5,34 @@
     "source": "/home/chris/dev",
     "destination": "backup:DEV-CLOUD-SYNC",
     "intervalMinutes": 1,
-    "status": "idle",
+    "status": "error",
     "progress": 0,
-    "bytesTransferred": 4014384019,
-    "filesTransferred": 76375,
+    "bytesTransferred": 0,
+    "filesTransferred": 0,
     "speed": 0,
-    "totalFiles": 128082,
-    "totalBytes": 4774427195,
+    "totalFiles": 53982,
+    "totalBytes": 895560830,
     "nextRun": "2025-12-31T14:18:03.968Z",
-    "lastError": null,
-    "startedAt": "2026-01-12T23:57:04.200Z",
-    "lastSpeed": 2143.209148142197,
+    "lastError": "Remote \"backup\" is not reachable or not configured.",
+    "startedAt": "2026-01-13T09:14:21.047Z",
+    "lastSpeed": 3825.9075672270765,
     "lastRun": "2025-12-31T14:17:03.968Z",
-    "eta": "110h 26m",
-    "_lastCheckTime": 1768282008559,
-    "_lastBytes": 4014384019,
+    "eta": "7h 27m",
+    "_lastCheckTime": 1768294432377,
+    "_lastBytes": 604234910,
     "transferring": [
       {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/bomb.svg",
-        "size": 425,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-alert.svg",
-        "size": 196,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-arrow-down-outline.svg",
-        "size": 258,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-arrow-left.svg",
-        "size": 244,
-        "bytes": 244,
+        "name": "JOBSPRINT-ANTIGRAVITY/Auto-Claude/apps/backend/.venv/lib/python3.12/site-packages/numpy/f2py/tests/src/abstract_interface/gh18403_mod.f90",
+        "size": 105,
+        "bytes": 105,
         "percentage": 100,
-        "speed": 57481.22908060187,
+        "speed": 292.75893398497936,
         "speedAvg": 0,
         "eta": null
       },
       {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-arrow-up-outline.svg",
-        "size": 255,
-        "bytes": 255,
-        "percentage": 100,
-        "speed": 219.06535510239775,
-        "speedAvg": 28.333319308340275,
-        "eta": 0
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-cancel.svg",
-        "size": 456,
+        "name": "algotrade-saas/squashfs-root/resources/backend/.venv/lib/python3.13/site-packages/pip/_vendor/pygments/lexers/__init__.py",
+        "size": 12115,
         "bytes": 0,
         "percentage": 0,
         "speed": 0,
@@ -76,8 +40,8 @@
         "eta": null
       },
       {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-check-outline.svg",
-        "size": 273,
+        "name": "algotrade-saas/squashfs-root/resources/backend/.venv/lib/python3.13/site-packages/pip/_vendor/pygments/lexers/_mapping.py",
+        "size": 77602,
         "bytes": 0,
         "percentage": 0,
         "speed": 0,
@@ -85,8 +49,8 @@
         "eta": null
       },
       {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-edit.svg",
-        "size": 321,
+        "name": "algotrade-saas/squashfs-root/resources/backend/.venv/lib/python3.13/site-packages/pip/_vendor/pygments/lexers/python.py",
+        "size": 53853,
         "bytes": 0,
         "percentage": 0,
         "speed": 0,
@@ -94,8 +58,8 @@
         "eta": null
       },
       {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-education-outline.svg",
-        "size": 250,
+        "name": "auto-claude/apps/backend/.venv/lib64/python3.13/site-packages/pip/_vendor/platformdirs/__pycache__/__init__.cpython-313.pyc",
+        "size": 19378,
         "bytes": 0,
         "percentage": 0,
         "speed": 0,
@@ -103,8 +67,8 @@
         "eta": null
       },
       {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-education.svg",
-        "size": 249,
+        "name": "auto-claude/apps/backend/.venv/lib64/python3.13/site-packages/pip/_vendor/platformdirs/__pycache__/__main__.cpython-313.pyc",
+        "size": 1945,
         "bytes": 0,
         "percentage": 0,
         "speed": 0,
@@ -112,8 +76,8 @@
         "eta": null
       },
       {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-heart-outline.svg",
-        "size": 340,
+        "name": "auto-claude/apps/backend/.venv/lib64/python3.13/site-packages/pip/_vendor/platformdirs/__pycache__/android.cpython-313.pyc",
+        "size": 10776,
         "bytes": 0,
         "percentage": 0,
         "speed": 0,
@@ -121,188 +85,8 @@
         "eta": null
       },
       {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-heart.svg",
-        "size": 321,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-information-variant.svg",
-        "size": 536,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-lock-open-outline.svg",
-        "size": 426,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-lock-open.svg",
-        "size": 455,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-lock-outline.svg",
-        "size": 426,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-lock.svg",
-        "size": 455,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-marker-outline.svg",
-        "size": 397,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-marker.svg",
-        "size": 385,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-minus-multiple-outline.svg",
-        "size": 280,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-minus-multiple.svg",
-        "size": 267,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-minus-outline.svg",
-        "size": 246,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-minus.svg",
-        "size": 231,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-multiple-outline.svg",
-        "size": 214,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-multiple.svg",
-        "size": 197,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-music-outline.svg",
-        "size": 288,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-music.svg",
-        "size": 283,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-off-outline.svg",
-        "size": 286,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-off.svg",
-        "size": 261,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-open-blank-variant-outline.svg",
-        "size": 584,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-open-blank-variant.svg",
-        "size": 490,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-open-outline.svg",
-        "size": 222,
+        "name": "auto-claude/apps/backend/.venv/lib64/python3.13/site-packages/pip/_vendor/platformdirs/__pycache__/api.cpython-313.pyc",
+        "size": 13487,
         "bytes": 0,
         "percentage": 0,
         "speed": 0,
@@ -311,8 +95,8 @@
       }
     ],
     "diffStatus": "checking",
-    "currentFile": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/bomb.svg",
-    "currentFileSize": 425,
-    "currentFileBytes": 0
+    "currentFileSize": 105,
+    "currentFileBytes": 105,
+    "currentFile": "JOBSPRINT-ANTIGRAVITY/Auto-Claude/apps/backend/.venv/lib/python3.12/site-packages/numpy/f2py/tests/src/abstract_interface/gh18403_mod.f90"
   }
 ]

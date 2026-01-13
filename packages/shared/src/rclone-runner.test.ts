@@ -70,4 +70,37 @@ describe('RcloneRunner', () => {
       expect.any(Object)
     );
   });
+
+  test('isConnected returns true when rclone lsd succeeds', async () => {
+    const fakeProc: any = {
+      stdout: { on: jest.fn() },
+      stderr: { on: jest.fn() },
+      on: jest.fn((event: string, cb: Function) => {
+        if (event === 'close') setImmediate(() => cb(0));
+      }),
+    };
+    (spawn as jest.Mock).mockReturnValue(fakeProc);
+
+    const result = await RcloneRunner.isConnected('myremote');
+    expect(result).toBe(true);
+    expect(spawn).toHaveBeenCalledWith(
+      'rclone',
+      ['lsd', 'myremote:', '--max-depth', '0'],
+      expect.any(Object)
+    );
+  });
+
+  test('isConnected returns false when rclone lsd fails', async () => {
+    const fakeProc: any = {
+      stdout: { on: jest.fn() },
+      stderr: { on: jest.fn() },
+      on: jest.fn((event: string, cb: Function) => {
+        if (event === 'close') setImmediate(() => cb(1));
+      }),
+    };
+    (spawn as jest.Mock).mockReturnValue(fakeProc);
+
+    const result = await RcloneRunner.isConnected('myremote');
+    expect(result).toBe(false);
+  });
 });

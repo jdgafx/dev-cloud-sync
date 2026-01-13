@@ -1,9 +1,9 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import { SyncConfig } from './types';
+import { RcloneRunner } from '@dev-cloud-sync/shared';
 
 const execAsync = promisify(exec);
-import { RcloneRunner } from '@dev-cloud-sync/shared';
 
 export class RcloneSync {
   private config: SyncConfig;
@@ -17,7 +17,7 @@ export class RcloneSync {
    */
   async isAvailable(): Promise<boolean> {
     try {
-      await execAsync('rclone --version');
+      await RcloneRunner.run(['--version']);
       return true;
     } catch (error) {
       console.error('Failed to check rclone availability:', error);
@@ -30,7 +30,7 @@ export class RcloneSync {
    */
   async listRemotes(): Promise<string[]> {
     try {
-      const { stdout } = await execAsync('rclone listremotes');
+      const { stdout } = await RcloneRunner.run(['listremotes']);
       return stdout
         .split('\n')
         .filter((line) => line.trim().length > 0)

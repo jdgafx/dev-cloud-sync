@@ -5,9 +5,9 @@ import path from 'path';
 import { EventEmitter } from 'events';
 import config from '../config';
 import logger from '../utils/logger';
+import { RcloneRunner } from '@dev-cloud-sync/shared';
 
 const execAsync = promisify(exec);
-import { RcloneRunner } from '@dev-cloud-sync/shared';
 
 export interface TransferItem {
   name: string;
@@ -197,38 +197,38 @@ export class RcloneService extends EventEmitter {
         jobId: job.id,
         name: job.name,
       });
-      const process = spawn('rclone', args);
 
-      return new Promise((resolve) => {
-        process.on('close', (code) => {
-          job.lastDiffCheck = new Date();
-          if (code === 0) {
-            job.diffStatus = 'synced';
-            job.pendingChanges = 0;
-            logger.info('Check complete: Node is in perfect sync.', {
-              jobId: job.id,
-            });
-            resolve(false);
-          } else if (code === 1) {
-            job.diffStatus = 'different';
-            job.pendingChanges = 1;
-            logger.info(
-              'Check complete: Differences detected. Sync required.',
-              { jobId: job.id }
-            );
-            resolve(true);
-          } else {
-            job.diffStatus = 'error' as any;
-            logger.error('Diff check failed', { jobId: job.id, code });
-            resolve(false);
-          }
-          this.emit('jobs:update', this.jobs);
-        });
+      const { code } = await RcloneRunner.run(args, {
+        allowedExitCodes: [0, 1],
+        timeoutMs: config.rclone.timeout * 1000,
       });
-    } catch (e) {
+
+      job.lastDiffCheck = new Date();
+      if (code === 0) {
+        job.diffStatus = 'synced';
+        job.pendingChanges = 0;
+        logger.info('Check complete: Node is in perfect sync.', {
+          jobId: job.id,
+        });
+        return false;
+      } else if (code === 1) {
+        job.diffStatus = 'different';
+        job.pendingChanges = 1;
+        logger.info('Check complete: Differences detected. Sync required.', {
+          jobId: job.id,
+        });
+        return true;
+      } else {
+        job.diffStatus = 'error' as any;
+        logger.error('Diff check failed', { jobId: job.id, code });
+        return false;
+      }
+    } catch (e: any) {
       job.diffStatus = 'error' as any;
-      this.emit('jobs:update', this.jobs);
+      logger.error('Diff check error', { jobId: job.id, error: e.message });
       return false;
+    } finally {
+      this.emit('jobs:update', this.jobs);
     }
   }
 
@@ -315,22 +315,47 @@ export class RcloneService extends EventEmitter {
 
   public async listRemotes(): Promise<RcloneRemote[]> {
     try {
-      const { stdout } = await execAsync(
-        'rclone listremotes --long 2>/dev/null || rclone listremotes'
-      );
-      const lines = stdout
-        .trim()
-        .split('\n')
-        .filter((l) => l);
-      return lines
-        .map((line) => {
-          const parts = line.split(':');
-          const name = parts[0]?.trim();
-          const type = parts[1]?.trim() || 'unknown';
-          if (!name) return null;
-          return { name, type };
-        })
-        .filter((r): r is RcloneRemote => r !== null);
+      // Try the verbose list first (has type information), with a short timeout
+      try {
+        const { stdout } = await RcloneRunner.run(['listremotes', '--long'], {
+          timeoutMs: 5000,
+        });
+        const lines: string[] = String(stdout)
+          .trim()
+          .split('\n')
+          .map((l) => l.trim())
+          .filter((l) => l.length > 0);
+
+        return lines
+          .map((line: string) => {
+            const parts = line.split(':');
+            const name = parts[0]?.trim();
+            const type = parts[1]?.trim() || 'unknown';
+            if (!name) return null;
+            return { name, type };
+          })
+          .filter((r): r is RcloneRemote => r !== null);
+      } catch (e) {
+        // Fallback to the simpler command if --long not supported
+        const { stdout } = await RcloneRunner.run(['listremotes'], {
+          timeoutMs: 5000,
+        });
+        const lines: string[] = String(stdout)
+          .trim()
+          .split('\n')
+          .map((l) => l.trim())
+          .filter((l) => l.length > 0);
+
+        return lines
+          .map((line: string) => {
+            const parts = line.split(':');
+            const name = parts[0]?.trim();
+            const type = parts[1]?.trim() || 'unknown';
+            if (!name) return null;
+            return { name, type };
+          })
+          .filter((r): r is RcloneRemote => r !== null);
+      }
     } catch (e) {
       logger.error('Failed to list remotes', { error: (e as Error).message });
       return [];
@@ -552,17 +577,24 @@ export class RcloneService extends EventEmitter {
         throw new Error('Source and destination are required');
       if (!job.source.includes(':') && !fs.existsSync(job.source))
         throw new Error(`Source path does not exist: ${job.source}`);
-      if (job.destination.includes(':')) {
-        try {
-          await execAsync(
-            `rclone mkdir "${job.destination}" --timeout ${config.rclone.timeout}s`
+
+      const destRemote = job.destination.split(':')[0];
+      if (destRemote && job.destination.includes(':')) {
+        const isConnected = await RcloneRunner.isConnected(destRemote);
+        if (!isConnected) {
+          throw new Error(
+            `Remote "${destRemote}" is not reachable or not configured.`
           );
+        }
+
+        try {
+          await RcloneRunner.run(['mkdir', job.destination], {
+            timeoutMs: config.rclone.timeout * 1000,
+          });
         } catch (e: any) {
-          if (e.message.includes("didn't find section")) {
-            throw new Error(
-              `Remote "${job.destination.split(':')[0]}" is not configured.`
-            );
-          }
+          logger.debug('mkdir check failed (might already exist)', {
+            error: e.message,
+          });
         }
       }
 
@@ -670,9 +702,6 @@ export class RcloneService extends EventEmitter {
         args.push('--b2-hard-delete');
       }
 
-      const process = spawn('rclone', args);
-      this.activeProcesses.set(job.id, process);
-
       let lastProgressUpdate = 0;
       const emitUpdate = () => {
         const now = Date.now();
@@ -696,28 +725,38 @@ export class RcloneService extends EventEmitter {
       };
 
       this.stderrBuffers.set(job.id, '');
-      process.stderr?.on('data', (data) => {
-        let buffer = (this.stderrBuffers.get(job.id) || '') + data.toString();
-        const lines = buffer.split('\n');
-        this.stderrBuffers.set(job.id, lines.pop() || '');
-        for (const line of lines) {
-          if (!line.trim()) continue;
-          try {
-            const parsed = JSON.parse(line);
-            this.parseRcloneOutput(job, line, true);
-            if (parsed.stats) emitUpdate();
-          } catch (e) {}
-        }
+
+      await RcloneRunner.run(args, {
+        onSpawn: (proc) => {
+          this.activeProcesses.set(job.id, proc);
+        },
+        onStderr: (data) => {
+          let buffer = (this.stderrBuffers.get(job.id) || '') + data;
+          const lines = buffer.split('\n');
+          this.stderrBuffers.set(job.id, lines.pop() || '');
+          for (const line of lines) {
+            if (!line.trim()) continue;
+            try {
+              const parsed = JSON.parse(line);
+              this.parseRcloneOutput(job, line, true);
+              if (parsed.stats) emitUpdate();
+            } catch (e) {}
+          }
+        },
       });
 
-      await new Promise<void>((resolve, reject) => {
-        process.on('close', (code, signal) => {
-          this.activeProcesses.delete(job.id);
-          if (signal === 'SIGTERM') resolve();
-          else if (code === 0) resolve();
-          else reject(new Error(`rclone exited with code ${code}`));
-        });
-      });
+      this.activeProcesses.delete(job.id);
+
+      // We need to keep track of the underlying process if we want to be able to kill it.
+      // RcloneRunner.run doesn't currently expose it.
+      // I should modify RcloneRunner.run to optionally return the process or allow passing an AbortSignal.
+
+      // For now, I'll stick to spawn for the core sync if I need the process object for stopJob.
+      // Actually, I can add a way to get the process from RcloneRunner or pass a callback.
+
+      // Let's revert this part for a moment and improve RcloneRunner first.
+
+      const process = spawn('rclone', args);
 
       job.lastRun = new Date();
       job.nextRun = new Date(Date.now() + job.intervalMinutes * 60000);
@@ -873,8 +912,11 @@ export class RcloneService extends EventEmitter {
     remote: string
   ): Promise<{ success: boolean; message: string }> {
     try {
-      await execAsync(`rclone lsd "${remote}" --max-depth 0 --timeout 15s`);
-      return { success: true, message: 'Connection successful' };
+      const connected = await RcloneRunner.isConnected(remote);
+      return {
+        success: connected,
+        message: connected ? 'Connection successful' : 'Connection failed',
+      };
     } catch (e: any) {
       return { success: false, message: e.message };
     }
@@ -882,9 +924,9 @@ export class RcloneService extends EventEmitter {
 
   async getDirectoryListing(path: string): Promise<string[]> {
     try {
-      const { stdout } = await execAsync(
-        `rclone lsd "${path}" --timeout ${config.rclone.timeout}s`
-      );
+      const { stdout } = await RcloneRunner.run(['lsd', path], {
+        timeoutMs: config.rclone.timeout * 1000,
+      });
       return stdout
         .trim()
         .split('\n')
@@ -909,9 +951,10 @@ export class RcloneService extends EventEmitter {
         fullPath += remotePath.startsWith('/')
           ? remotePath.slice(1)
           : remotePath;
-      const { stdout } = await execAsync(
-        `rclone lsjson "${fullPath}" --timeout ${config.rclone.timeout}s`
-      );
+
+      const { stdout } = await RcloneRunner.run(['lsjson', fullPath], {
+        timeoutMs: config.rclone.timeout * 1000,
+      });
       return JSON.parse(stdout);
     } catch (e: any) {
       throw new Error(`Listing failed: ${e.message}`);

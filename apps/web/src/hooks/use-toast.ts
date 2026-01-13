@@ -51,6 +51,15 @@ interface State {
 
 const toastTimeouts = new Map<string, ReturnType<typeof setTimeout>>();
 
+// Remove a toast immediately
+const removeToastNow = (toastId: string) => {
+  if (toastTimeouts.has(toastId)) {
+    clearTimeout(toastTimeouts.get(toastId));
+    toastTimeouts.delete(toastId);
+  }
+  dispatch({ type: 'REMOVE_TOAST', toastId });
+};
+
 const addToRemoveQueue = (toastId: string) => {
   if (toastTimeouts.has(toastId)) {
     return;
@@ -66,7 +75,6 @@ const addToRemoveQueue = (toastId: string) => {
 
   toastTimeouts.set(toastId, timeout);
 };
-
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'ADD_TOAST':
@@ -145,9 +153,25 @@ function toast({ ...props }: Toast) {
     },
   });
 
-  setTimeout(() => {
+  const existing = Array.from(toastTimeouts.keys()).find((tid) => {
+    const t = memoryState.toasts.find((tt) => tt.id === tid);
+    if (!t) return false;
+    return t.title === props.title && t.description === props.description;
+  });
+
+  if (existing) {
+    return {
+      id: existing,
+      dismiss: () => dispatch({ type: 'DISMISS_TOAST', toastId: existing }),
+    };
+  }
+
+  const timeout = setTimeout(() => {
     dismiss();
+    toastTimeouts.delete(id);
   }, TOAST_REMOVE_DELAY);
+
+  toastTimeouts.set(id, timeout);
 
   return {
     id: id,

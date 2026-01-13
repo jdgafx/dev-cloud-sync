@@ -94,3 +94,9 @@ config/local.*.json
 .metrics/
 .grafana/
 .prometheus/.env.tmp
+
+# Shared package build artifacts
+packages/shared/src/**/*.js
+packages/shared/src/**/*.js.map
+packages/shared/src/**/*.d.ts
+packages/shared/src/**/*.d.ts.map

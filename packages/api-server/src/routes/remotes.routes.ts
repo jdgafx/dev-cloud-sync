@@ -1,14 +1,11 @@
 import { Router } from 'express';
 import Joi from 'joi';
-import { exec } from 'child_process';
-import { promisify } from 'util';
 import { validate } from '../middleware/validate';
 import { sendSuccess, sendError } from '../utils/response';
 import { BadRequestError } from '../utils/errors';
 import logger from '../utils/logger';
-
-const execAsync = promisify(exec);
 import { RcloneRunner } from '@dev-cloud-sync/shared';
+
 const router = Router();
 
 /**
@@ -294,8 +291,26 @@ router.get('/', async (_req, res) => {
         displayName: typeConfig?.name || remote.type,
         icon: typeConfig?.icon || 'cloud',
         configurable: !!typeConfig,
+        connected: false, // default, we'll check below
       };
     });
+
+    const checks = enhancedRemotes.map((r: any) =>
+      RcloneRunner.isConnected(r.name)
+        .then((connected) => ({ name: r.name, connected }))
+        .catch(() => ({ name: r.name, connected: false }))
+    );
+
+    const results = await Promise.allSettled(checks);
+    for (const res of results) {
+      if (res.status === 'fulfilled') {
+        const payload = res.value as { name: string; connected: boolean };
+        const idx = enhancedRemotes.findIndex(
+          (er: any) => er.name === payload.name
+        );
+        if (idx !== -1) enhancedRemotes[idx].connected = !!payload.connected;
+      }
+    }
 
     sendSuccess(res, enhancedRemotes);
   } catch (e) {
@@ -411,13 +426,21 @@ router.put(
     const { name } = req.params;
     const { config } = req.body;
 
+    if (!name) return next(new BadRequestError('Remote name is required'));
+
     try {
       // Update each config value
       for (const [key, value] of Object.entries(config)) {
         if (value !== '********') {
           // Don't update masked fields
           const valueStr = value === '' || value === null ? '' : String(value);
-          await RcloneRunner.run(['config', 'update', name, key, valueStr]);
+          await RcloneRunner.run([
+            'config',
+            'update',
+            name as string,
+            String(key),
+            valueStr,
+          ]);
         }
       }
 

@@ -190,9 +190,43 @@ function App() {
 
   const socketRef = useRef<Socket | null>(null);
 
-  // --- Data Fetching ---
+  const [missingRemotes, setMissingRemotes] = useState<string[]>([]);
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  const testRemote = async (name: string) => {
+    try {
+      const remote = name.endsWith(':') ? name : `${name}:`;
+      const t = toast({
+        title: 'Testing remote',
+        description: `Checking ${name}...`,
+      });
+      const res = await axios.post(`${API_URL}/remotes/test`, { remote });
+      t.dismiss();
+      if (res.data?.data?.success || res.data?.success) {
+        toast({
+          title: 'Remote OK',
+          description: `${name} is reachable.`,
+          variant: 'success',
+        });
+      } else {
+        toast({
+          title: 'Remote test failed',
+          description: `${name} cannot be reached: ${res.data?.data?.message || res.data?.message || 'Unknown'}`,
+          variant: 'destructive',
+        });
+      }
+    } catch (err: any) {
+      toast({
+        title: 'Remote test error',
+        description: err?.message || 'Connection failed',
+        variant: 'destructive',
+      });
+    }
+  };
+
   const fetchData = useCallback(async () => {
     setIsLoading(true);
+    setApiError(null);
     try {
       const [jobsRes, remotesRes, logsRes, statsRes] = await Promise.all([
         axios.get(`${API_URL}/jobs`),
@@ -200,14 +234,31 @@ function App() {
         axios.get(`${API_URL}/activity/history`),
         axios.get(`${API_URL}/stats`),
       ]);
-      setJobs(jobsRes.data.data || []);
-      setRemotes(remotesRes.data.data || []);
+
+      const jobsData = jobsRes.data.data || [];
+      const remotesData = remotesRes.data.data || [];
+
+      setJobs(jobsData);
+      setRemotes(remotesData);
       setLogs(logsRes.data.data || []);
       setStats((prev) => ({ ...prev, ...statsRes.data.data }));
       setStatus('online');
-    } catch (error) {
+
+      const configured = new Set(remotesData.map((r: any) => r.name));
+      const referenced = new Set<string>();
+      for (const j of jobsData) {
+        if (typeof j.destination === 'string' && j.destination.includes(':')) {
+          const rn = j.destination.split(':')[0];
+          if (rn) referenced.add(rn);
+        }
+      }
+      const missing = Array.from(referenced).filter((r) => !configured.has(r));
+      setMissingRemotes(missing);
+    } catch (error: any) {
       console.error('Failed to fetch data:', error);
       setStatus('offline');
+      setApiError(error?.message || 'API unreachable');
+      setMissingRemotes([]);
     } finally {
       setIsLoading(false);
     }
@@ -221,10 +272,19 @@ function App() {
     socketRef.current = socket;
 
     socket.on('connect', () => {
+      fetchData();
+
       setStatus('online');
+      const existing = remotes.length === 0 ? 'no-remotes' : 'connected';
       toast({
-        title: 'Connected',
-        description: 'Real-time sync is active',
+        title:
+          existing === 'connected'
+            ? 'Connected'
+            : 'Connected (no remotes configured)',
+        description:
+          existing === 'connected'
+            ? 'Real-time sync is active'
+            : 'Connected to server. No remotes configured',
         variant: 'success',
       });
     });

@@ -31,14 +31,12 @@
       "@shared/*": ["packages/shared/src/*"],
       "@sync-engine/*": ["packages/sync-engine/src/*"],
       "@api-server/*": ["packages/api-server/src/*"],
-      "@database/*": ["packages/database/src/*"]
+      "@database/*": ["packages/database/src/*"],
+      "@dev-cloud-sync/shared": ["packages/shared/src/index.ts"],
+      "@dev-cloud-sync/shared/*": ["packages/shared/src/*"]
     }
   },
-  "include": [
-    "packages/*/src/**/*",
-    "apps/*/src/**/*",
-    "tools/*/src/**/*"
-  ],
+  "include": ["packages/*/src/**/*", "apps/*/src/**/*", "tools/*/src/**/*"],
   "exclude": [
     "node_modules",
     "dist",
