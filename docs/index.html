@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CloudSync - Secure Enterprise File Synchronization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#3b82f6',
+              secondary: '#8b5cf6',
+              dark: '#0f172a',
+              darker: '#020617',
+              surface: '#1e293b',
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #020617;
+        color: #f8fafc;
+      }
+      .hero-gradient {
+        background: radial-gradient(
+          circle at top center,
+          #1e1b4b 0%,
+          #020617 70%
+        );
+      }
+      .text-gradient {
+        background: linear-gradient(to right, #60a5fa, #c084fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.3);
+        border-color: #8b5cf6;
+      }
+    </style>
+  </head>
+  <body class="antialiased selection:bg-purple-500 selection:text-white">
+    <!-- Navigation -->
+    <nav
+      class="fixed w-full z-50 bg-darker/80 backdrop-blur-md border-b border-white/10"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center gap-2">
+            <div
+              class="w-8 h-8 bg-gradient-to-tr from-blue-500 to-purple-600 rounded-lg flex items-center justify-center"
+            >
+              <svg
+                class="w-5 h-5 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                ></path>
+              </svg>
+            </div>
+            <span class="font-bold text-xl tracking-tight">CloudSync</span>
+          </div>
+          <div class="hidden md:block">
+            <div class="ml-10 flex items-baseline space-x-4">
+              <a
+                href="#features"
+                class="hover:text-white text-gray-300 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >Features</a
+              >
+              <a
+                href="#architecture"
+                class="hover:text-white text-gray-300 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >Architecture</a
+              >
+              <a
+                href="#docs"
+                class="hover:text-white text-gray-300 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                >Documentation</a
+              >
+              <a
+                href="https://github.com/jdgafx/dev-cloud-sync"
+                class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2"
+              >
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                  />
+                </svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div
+      class="relative pt-32 pb-20 sm:pt-40 sm:pb-24 hero-gradient overflow-hidden"
+    >
+      <div
+        class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"
+      ></div>
+
+      <div
+        class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10"
+      >
+        <div
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 mb-8 animate-fade-in-up"
+        >
+          <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+          <span class="text-blue-300 text-sm font-medium">v0.1.0 Released</span>
+        </div>
+
+        <h1 class="text-5xl sm:text-7xl font-bold tracking-tight mb-8">
+          Sync Anything, <br />
+          <span class="text-gradient">Anywhere.</span>
+        </h1>
+
+        <p class="mt-4 text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+          The enterprise-grade cloud synchronization platform built for
+          developers. Secure, self-hosted, and powered by Rclone with a modern
+          React interface.
+        </p>
+
+        <div
+          class="flex flex-col sm:flex-row gap-4 justify-center items-center"
+        >
+          <a
+            href="#"
+            class="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-bold text-lg transition-all shadow-lg shadow-blue-600/20 flex items-center justify-center gap-2"
+          >
+            Get Started
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 7l5 5m0 0l-5 5m5-5H6"
+              ></path>
+            </svg>
+          </a>
+          <a
+            href="#demo"
+            class="w-full sm:w-auto px-8 py-4 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-lg font-bold text-lg transition-all flex items-center justify-center gap-2"
+          >
+            <svg
+              class="w-5 h-5 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+              ></path>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+            Watch Demo
+          </a>
+        </div>
+
+        <!-- Code Preview -->
+        <div
+          class="mt-20 relative max-w-4xl mx-auto transform hover:scale-[1.01] transition-transform duration-500"
+        >
+          <div
+            class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-30"
+          ></div>
+          <div
+            class="relative rounded-xl bg-[#0f172a] border border-white/10 shadow-2xl overflow-hidden"
+          >
+            <div
+              class="flex items-center gap-2 px-4 py-3 bg-white/5 border-b border-white/5"
+            >
+              <div class="flex gap-2">
+                <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+                <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                <div class="w-3 h-3 rounded-full bg-green-500/50"></div>
+              </div>
+              <div class="flex-1 text-center text-xs text-gray-500 font-mono">
+                rclone-runner.ts
+              </div>
+            </div>
+            <div class="p-6 text-left overflow-x-auto">
+              <pre class="font-mono text-sm leading-relaxed">
+<span class="text-purple-400">import</span> { spawn } <span class="text-purple-400">from</span> <span class="text-green-400">'child_process'</span>;
+
+<span class="text-blue-400">export class</span> <span class="text-yellow-300">RcloneRunner</span> {
+  <span class="text-gray-400">/**
+   * Securely executes rclone commands using spawn
+   */</span>
+  <span class="text-blue-400">static async</span> <span class="text-yellow-300">run</span>(args: <span class="text-blue-400">string</span>[]): <span class="text-blue-400">Promise</span><<span class="text-blue-400">void</span>> {
+    <span class="text-purple-400">const</span> child = <span class="text-blue-400">spawn</span>(<span class="text-green-400">'rclone'</span>, args, {
+      stdio: [<span class="text-green-400">'ignore'</span>, <span class="text-green-400">'pipe'</span>, <span class="text-green-400">'pipe'</span>]
+    });
+    
+    <span class="text-gray-500">// Secure execution with strict output handling...</span>
+  }
+}
+</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Grid -->
+    <div id="features" class="py-24 bg-darker">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2
+            class="text-base text-blue-400 font-semibold tracking-wide uppercase"
+          >
+            Capabilities
+          </h2>
+          <p
+            class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl"
+          >
+            Engineered for Reliability
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Feature 1 -->
+          <div
+            class="bg-surface border border-white/5 rounded-2xl p-8 card-hover relative group overflow-hidden"
+          >
+            <div
+              class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-bl-full -mr-16 -mt-16 transition-all group-hover:bg-blue-500/20"
+            ></div>
+            <div
+              class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-6 text-blue-400"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-4">
+              Enterprise Security
+            </h3>
+            <p class="text-gray-400 leading-relaxed">
+              Spawn-based execution model prevents shell injection. Role-based
+              access control and encrypted credentials at rest.
+            </p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div
+            class="bg-surface border border-white/5 rounded-2xl p-8 card-hover relative group overflow-hidden"
+          >
+            <div
+              class="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-bl-full -mr-16 -mt-16 transition-all group-hover:bg-purple-500/20"
+            ></div>
+            <div
+              class="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-6 text-purple-400"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-4">High Performance</h3>
+            <p class="text-gray-400 leading-relaxed">
+              Powered by Rclone with multi-threaded transfers. Smart job queuing
+              and real-time progress tracking via WebSockets.
+            </p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div
+            class="bg-surface border border-white/5 rounded-2xl p-8 card-hover relative group overflow-hidden"
+          >
+            <div
+              class="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-bl-full -mr-16 -mt-16 transition-all group-hover:bg-green-500/20"
+            ></div>
+            <div
+              class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-6 text-green-400"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-4">50+ Providers</h3>
+            <p class="text-gray-400 leading-relaxed">
+              Connect to Google Drive, S3, Dropbox, OneDrive, and specialized
+              protocols like SFTP and WebDAV seamlessly.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tech Stack -->
+    <div class="py-16 border-t border-white/5 bg-dark">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p
+          class="text-sm font-semibold text-gray-500 tracking-widest uppercase mb-8"
+        >
+          Powered by Modern Tech Stack
+        </p>
+        <div
+          class="flex justify-center gap-12 items-center opacity-50 grayscale hover:grayscale-0 transition-all duration-500"
+        >
+          <span class="text-2xl font-bold text-white">React 18</span>
+          <span class="text-2xl font-bold text-white">TypeScript</span>
+          <span class="text-2xl font-bold text-white">Node.js</span>
+          <span class="text-2xl font-bold text-white">PostgreSQL</span>
+          <span class="text-2xl font-bold text-white">Rclone</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-darker border-t border-white/10 py-12">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center"
+      >
+        <div class="flex items-center gap-2 mb-4 md:mb-0">
+          <div
+            class="w-6 h-6 bg-gradient-to-tr from-blue-500 to-purple-600 rounded-lg"
+          ></div>
+          <span class="font-bold text-lg">CloudSync</span>
+        </div>
+        <div class="text-gray-500 text-sm">
+          &copy; 2025 Dev Cloud Sync. MIT License.
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
