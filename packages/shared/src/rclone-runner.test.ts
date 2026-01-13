@@ -28,18 +28,28 @@ describe('RcloneRunner', () => {
   });
 
   test('rejects on timeout', async () => {
+    jest.useFakeTimers();
+    const listeners: Record<string, Function[]> = {};
+
     const fakeProc: any = {
       stdout: { on: jest.fn() },
       stderr: { on: jest.fn() },
-      on: jest.fn(),
-      kill: jest.fn(),
+      on: jest.fn((event: string, cb: Function) => {
+        listeners[event] = listeners[event] || [];
+        listeners[event].push(cb);
+      }),
+      kill: jest.fn(() => {
+        // simulate close after kill
+        (listeners['close'] || []).forEach((cb) => cb(1));
+      }),
     };
     (spawn as jest.Mock).mockReturnValue(fakeProc);
 
-    await expect(
-      RcloneRunner.run(['version'], { timeoutMs: 1 })
-    ).rejects.toThrow('rclone: timeout');
-  });
+    const p = RcloneRunner.run(['version'], { timeoutMs: 10 });
+    jest.advanceTimersByTime(20);
+    await expect(p).rejects.toThrow('rclone: timeout');
+    jest.useRealTimers();
+  }, 10000);
 
   test('does not execute shell when args contain malicious string', async () => {
     const fakeProc: any = {
