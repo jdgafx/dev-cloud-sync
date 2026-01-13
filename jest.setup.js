@@ -2,8 +2,11 @@
 
 // Set test environment variables
 process.env.NODE_ENV = 'test';
-process.env.DATABASE_URL = process.env.TEST_DATABASE_URL || 'postgresql://test:test@localhost:5432/dev_cloud_sync_test';
-process.env.REDIS_URL = process.env.TEST_REDIS_URL || 'redis://localhost:6379/1';
+process.env.DATABASE_URL =
+  process.env.TEST_DATABASE_URL ||
+  'postgresql://test:test@localhost:5432/dev_cloud_sync_test';
+process.env.REDIS_URL =
+  process.env.TEST_REDIS_URL || 'redis://localhost:6379/1';
 process.env.JWT_SECRET = 'test-jwt-secret-key';
 process.env.SESSION_SECRET = 'test-session-secret';
 
@@ -23,6 +26,7 @@ if (process.env.VERBOSE_TESTS !== 'true') {
 }
 
 // Mock external services by default
+/*
 jest.mock('aws-sdk', () => ({
   S3: jest.fn(() => ({
     upload: jest.fn(() => ({
@@ -33,6 +37,7 @@ jest.mock('aws-sdk', () => ({
     })),
   })),
 }));
+*/
 
 // Global test utilities
 global.createTestUser = () => ({

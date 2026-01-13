@@ -3,6 +3,7 @@ import { promisify } from 'util';
 import { SyncConfig } from './types';
 
 const execAsync = promisify(exec);
+import { RcloneRunner } from '@dev-cloud-sync/shared';
 
 export class RcloneSync {
   private config: SyncConfig;
@@ -48,11 +49,16 @@ export class RcloneSync {
     remoteName: string,
     remotePath: string
   ): Promise<void> {
-    const command = `rclone sync "${localPath}" "${remoteName}:${remotePath}" --progress`;
-    console.log(`Executing: ${command}`);
+    const args = [
+      'sync',
+      localPath,
+      `${remoteName}:${remotePath}`,
+      '--progress',
+    ];
+    console.log('Executing: rclone', args.join(' '));
 
     try {
-      await execAsync(command);
+      await RcloneRunner.run(args);
       console.log('Sync completed successfully');
     } catch (error) {
       console.error('Sync failed:', error);
@@ -68,11 +74,16 @@ export class RcloneSync {
     remotePath: string,
     localPath: string
   ): Promise<void> {
-    const command = `rclone sync "${remoteName}:${remotePath}" "${localPath}" --progress`;
-    console.log(`Executing: ${command}`);
+    const args = [
+      'sync',
+      `${remoteName}:${remotePath}`,
+      localPath,
+      '--progress',
+    ];
+    console.log('Executing: rclone', args.join(' '));
 
     try {
-      await execAsync(command);
+      await RcloneRunner.run(args);
       console.log('Sync from remote completed successfully');
     } catch (error) {
       console.error('Sync from remote failed:', error);
@@ -88,9 +99,14 @@ export class RcloneSync {
     remotePath: string,
     mountPoint: string
   ): Promise<void> {
-    const command = `rclone mount "${remoteName}:${remotePath}" "${mountPoint}" --daemon`;
-    console.log(`Mounting: ${command}`);
-    await execAsync(command);
+    const args = [
+      'mount',
+      `${remoteName}:${remotePath}`,
+      mountPoint,
+      '--daemon',
+    ];
+    console.log('Mounting: rclone', args.join(' '));
+    await RcloneRunner.run(args);
   }
 
   /**
@@ -107,7 +123,7 @@ export class RcloneSync {
    */
   async getRemoteInfo(remoteName: string): Promise<string> {
     try {
-      const { stdout } = await execAsync(`rclone about "${remoteName}:"`);
+      const { stdout } = await RcloneRunner.run(['about', `${remoteName}:`]);
       return stdout;
     } catch (error) {
       console.error('Failed to get remote info:', error);
@@ -123,11 +139,11 @@ export class RcloneSync {
     remoteName: string,
     remotePath: string
   ): Promise<void> {
-    const command = `rclone copy "${localPath}" "${remoteName}:${remotePath}"`;
-    console.log(`Copying: ${command}`);
+    const args = ['copy', localPath, `${remoteName}:${remotePath}`];
+    console.log('Copying: rclone', args.join(' '));
 
     try {
-      await execAsync(command);
+      await RcloneRunner.run(args);
       console.log('Copy completed successfully');
     } catch (error) {
       console.error('Copy failed:', error);
@@ -142,11 +158,11 @@ export class RcloneSync {
     remoteName: string,
     remotePath: string
   ): Promise<void> {
-    const command = `rclone delete "${remoteName}:${remotePath}"`;
-    console.log(`Deleting: ${command}`);
+    const args = ['delete', `${remoteName}:${remotePath}`];
+    console.log('Deleting: rclone', args.join(' '));
 
     try {
-      await execAsync(command);
+      await RcloneRunner.run(args);
       console.log('Delete completed successfully');
     } catch (error) {
       console.error('Delete failed:', error);

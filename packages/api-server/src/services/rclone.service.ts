@@ -7,6 +7,7 @@ import config from '../config';
 import logger from '../utils/logger';
 
 const execAsync = promisify(exec);
+import { RcloneRunner } from '@dev-cloud-sync/shared';
 
 export interface TransferItem {
   name: string;
@@ -24,6 +25,9 @@ export interface SyncJob {
   source: string;
   destination: string;
   intervalMinutes: number;
+  concurrency?: number;
+  timeout?: number; // timeout in seconds
+  retries?: number; // number of retry attempts
   lastRun?: Date;
   nextRun?: Date;
   status: 'idle' | 'running' | 'error' | 'success';
@@ -39,7 +43,7 @@ export interface SyncJob {
   currentFile?: string;
   currentFileSize?: number;
   currentFileBytes?: number;
-  transferring?: TransferItem[]; // Added for per-thread tracking
+  transferring?: TransferItem[];
   diffStatus?: 'synced' | 'different' | 'checking';
   lastDiffCheck?: Date;
   pendingChanges?: number;
@@ -52,7 +56,6 @@ export interface SyncJob {
       }
     | undefined;
   lastSpeed?: number;
-  // Internal tracking for instantaneous speed
   _lastCheckTime?: number;
   _lastBytes?: number;
 }
@@ -100,10 +103,6 @@ export interface ActivityLogEntry {
     | undefined;
 }
 
-/**
- * RcloneService - Business logic layer for managing sync jobs and rclone operations.
- * Extends EventEmitter to broadcast real-time updates via WebSockets.
- */
 export class RcloneService extends EventEmitter {
   private jobs: SyncJob[] = [];
   private configPath: string;
@@ -130,31 +129,21 @@ export class RcloneService extends EventEmitter {
     this.loadJobs();
     this.loadActivityLog();
     this.loadAnalytics();
-
-    // Start subsystems
     this.startNetworkMonitor();
     this.startScheduler();
-
-    // Check storage quota every 5 minutes
     this.updateStorageStats();
     this.storageCheckInterval = setInterval(
       () => this.updateStorageStats(),
       5 * 60 * 1000
     );
-
-    // Trigger initial check/sync for all jobs on startup
     this.triggerStartupSync();
   }
 
-  // === NETWORK RESILIENCE ===
   private isOnline: boolean = true;
   private networkCheckInterval: NodeJS.Timeout | null = null;
 
   private startNetworkMonitor() {
-    // Initial check
     this.checkConnectivity();
-
-    // Periodic check (every 30s)
     this.networkCheckInterval = setInterval(
       () => this.checkConnectivity(),
       30000
@@ -162,8 +151,6 @@ export class RcloneService extends EventEmitter {
   }
 
   private async checkConnectivity() {
-    // ULTRATHINK: User requested "full speed regardless of network connectivity".
-    // We override the check to ALWAYS be online.
     if (!this.isOnline) {
       this.isOnline = true;
       logger.info(
@@ -172,11 +159,8 @@ export class RcloneService extends EventEmitter {
       this.emit('jobs:update', this.jobs);
       this.triggerStartupSync();
     }
-
-    // We still perform the check for logging/analytics, but we don't change state to offline
     try {
       await require('dns').promises.resolve('google.com');
-      // Online - no op
     } catch (e) {
       logger.warn(
         'Network connectivity check failed, but proceeding anyway (Ultra Mode).'
@@ -202,9 +186,6 @@ export class RcloneService extends EventEmitter {
     this.emit('jobs:update', this.jobs);
 
     try {
-      // Use rclone check --one-way to find if source has things destination doesn't
-      // We use --quiet and check exit code.
-      // 0 = match, 1 = diff, other = error
       const args = [
         'check',
         job.source,
@@ -212,12 +193,10 @@ export class RcloneService extends EventEmitter {
         '--one-way',
         '--quiet',
       ];
-
       logger.info('Performing diff check...', {
         jobId: job.id,
         name: job.name,
       });
-
       const process = spawn('rclone', args);
 
       return new Promise((resolve) => {
@@ -232,7 +211,7 @@ export class RcloneService extends EventEmitter {
             resolve(false);
           } else if (code === 1) {
             job.diffStatus = 'different';
-            job.pendingChanges = 1; // Placeholder for "some changes"
+            job.pendingChanges = 1;
             logger.info(
               'Check complete: Differences detected. Sync required.',
               { jobId: job.id }
@@ -291,7 +270,6 @@ export class RcloneService extends EventEmitter {
     if (status === 'success') {
       stats.successCount++;
       stats.totalBytes += bytes;
-      // Moving average for speed
       stats.avgSpeed =
         stats.avgSpeed === 0 ? speed : stats.avgSpeed * 0.7 + speed * 0.3;
     } else {
@@ -302,20 +280,19 @@ export class RcloneService extends EventEmitter {
 
   private async updateStorageStats() {
     try {
-      // Find the primary remote (assuming first remote or 'backup')
-      // In a better world, we'd loop or ask config, but for now we look for 'backup' or take the first one.
       const remotes = await this.listRemotes();
       let targetRemote =
         remotes.find((r) => r.name === 'backup')?.name || remotes[0]?.name;
-
       if (targetRemote) {
         if (!targetRemote.endsWith(':')) targetRemote += ':';
-
-        const { stdout } = await execAsync(
-          `rclone about "${targetRemote}" --json --timeout 30s`
-        );
+        const { stdout } = await RcloneRunner.run([
+          'about',
+          targetRemote,
+          '--json',
+          '--timeout',
+          '30s',
+        ]);
         const data = JSON.parse(stdout);
-
         if (data && data.total) {
           this.storageStats = {
             total: data.total,
@@ -326,7 +303,6 @@ export class RcloneService extends EventEmitter {
                 ? Math.round((data.used / data.total) * 100)
                 : 0,
           };
-          // Emit immediate update just in case
           this.emit('stats:update', await this.getStats());
         }
       }
@@ -339,20 +315,31 @@ export class RcloneService extends EventEmitter {
 
   public async listRemotes(): Promise<RcloneRemote[]> {
     try {
-      const { stdout } = await execAsync('rclone listremotes');
-      return stdout
+      const { stdout } = await execAsync(
+        'rclone listremotes --long 2>/dev/null || rclone listremotes'
+      );
+      const lines = stdout
+        .trim()
         .split('\n')
-        .filter(Boolean)
-        .map((line) => ({
-          name: line.replace(':', ''),
-          type: 'cloud', // Simplified, real implementation would parse 'rclone config dump'
-        }));
+        .filter((l) => l);
+      return lines
+        .map((line) => {
+          const parts = line.split(':');
+          const name = parts[0]?.trim();
+          const type = parts[1]?.trim() || 'unknown';
+          if (!name) return null;
+          return { name, type };
+        })
+        .filter((r): r is RcloneRemote => r !== null);
     } catch (e) {
+      logger.error('Failed to list remotes', { error: (e as Error).message });
       return [];
     }
   }
 
-  // === ACTIVITY LOG ===
+  public async getRemotes(): Promise<RcloneRemote[]> {
+    return this.listRemotes();
+  }
 
   private addLogEntry(
     type: ActivityLogEntry['type'],
@@ -370,26 +357,18 @@ export class RcloneService extends EventEmitter {
       message,
       details,
     };
-
     this.activityLog.push(entry);
-
-    // Keep log size bounded
     if (this.activityLog.length > this.maxLogEntries) {
       this.activityLog = this.activityLog.slice(
         this.activityLog.length - this.maxLogEntries
       );
     }
-
-    // Emit to WebSocket clients
     this.emit('activity:log', entry);
-
-    // Save log
     this.saveActivityLog();
     return entry;
   }
 
   getActivityLog(limit = 100): ActivityLogEntry[] {
-    // Return the last 'limit' entries (newest)
     return this.activityLog.slice(-limit);
   }
 
@@ -397,8 +376,6 @@ export class RcloneService extends EventEmitter {
     this.activityLog = [];
     this.emit('activity:cleared');
   }
-
-  // === LIFECYCLE ===
 
   private startScheduler(): void {
     this.schedulerInterval = setInterval(
@@ -408,8 +385,6 @@ export class RcloneService extends EventEmitter {
     logger.info('RcloneService initialized with scheduler', {
       intervalMs: config.rclone.schedulerIntervalMs,
     });
-
-    // Calculate next run times for all jobs
     this.updateNextRunTimes();
   }
 
@@ -424,24 +399,19 @@ export class RcloneService extends EventEmitter {
 
   public async shutdown(): Promise<void> {
     logger.info('RcloneService shutting down...');
-
     if (this.storageCheckInterval) {
       clearInterval(this.storageCheckInterval);
       this.storageCheckInterval = null;
     }
-
     const stopPromises = Array.from(this.activeProcesses.keys()).map((id) => {
       return new Promise<void>((resolve) => {
         this.stopJob(id);
         resolve();
       });
     });
-
     await Promise.all(stopPromises);
     logger.info('RcloneService shutdown complete');
   }
-
-  // === PERSISTENCE ===
 
   private loadJobs(): void {
     try {
@@ -466,8 +436,6 @@ export class RcloneService extends EventEmitter {
     }
   }
 
-  // === JOB MANAGEMENT ===
-
   getJobs(): SyncJob[] {
     return this.jobs.map((job) => ({
       ...job,
@@ -478,10 +446,7 @@ export class RcloneService extends EventEmitter {
   getJob(id: string): SyncJob | undefined {
     const job = this.jobs.find((j) => j.id === id);
     if (!job) return undefined;
-    return {
-      ...job,
-      analytics: this.analytics[job.id],
-    };
+    return { ...job, analytics: this.analytics[job.id] };
   }
 
   addJob(job: Partial<SyncJob>): SyncJob {
@@ -491,14 +456,15 @@ export class RcloneService extends EventEmitter {
       source: job.source || '',
       destination: job.destination || '',
       intervalMinutes: job.intervalMinutes || 60,
+      concurrency: job.concurrency || 8,
+      timeout: job.timeout || 30,
+      retries: job.retries || 10,
       status: 'idle',
       progress: 0,
       nextRun: new Date(Date.now() + (job.intervalMinutes || 60) * 60000),
     };
     this.jobs.push(newJob);
     this.saveJobs();
-    logger.info('Added job', { jobId: newJob.id, name: newJob.name });
-
     this.addLogEntry(
       'info',
       newJob.id,
@@ -506,54 +472,36 @@ export class RcloneService extends EventEmitter {
       `Job "${newJob.name}" created`
     );
     this.emit('jobs:update', this.jobs);
-
     return newJob;
   }
 
   updateJob(id: string, updates: Partial<SyncJob>): SyncJob | null {
     const job = this.jobs.find((j) => j.id === id);
     if (!job) return null;
-
     Object.assign(job, updates);
     this.saveJobs();
-    logger.info('Updated job', { jobId: id });
-
     this.addLogEntry('info', job.id, job.name, `Job "${job.name}" updated`);
     this.emit('jobs:update', this.jobs);
-
     return job;
   }
 
   removeJob(id: string): boolean {
     const idx = this.jobs.findIndex((j) => j.id === id);
     if (idx === -1) return false;
-
     const job = this.jobs[idx];
     if (!job) return false;
-
     const jobName = job.name;
     this.stopJob(id);
     this.jobs.splice(idx, 1);
     this.saveJobs();
-    logger.info('Removed job', { jobId: id });
-
     this.addLogEntry('info', id, jobName, `Job "${jobName}" deleted`);
     this.emit('jobs:update', this.jobs);
-
     return true;
   }
 
-  // === SYNC EXECUTION ===
-
   async runJobNow(id: string): Promise<boolean> {
     const job = this.jobs.find((j) => j.id === id);
-    if (!job) return false;
-
-    if (job.status === 'running') {
-      logger.warn('Job already running', { jobId: id });
-      return false;
-    }
-
+    if (!job || job.status === 'running') return false;
     this.executeJob(job);
     return true;
   }
@@ -563,14 +511,12 @@ export class RcloneService extends EventEmitter {
     if (process) {
       process.kill('SIGTERM');
       this.activeProcesses.delete(id);
-
       const job = this.jobs.find((j) => j.id === id);
       if (job) {
         job.status = 'idle';
         job.progress = 0;
         job.speed = 0;
         this.saveJobs();
-
         this.addLogEntry(
           'warning',
           id,
@@ -579,16 +525,12 @@ export class RcloneService extends EventEmitter {
         );
         this.emit('jobs:update', this.jobs);
       }
-      logger.info('Stopped job', { jobId: id });
       return true;
     }
     return false;
   }
 
   private async executeJob(job: SyncJob): Promise<void> {
-    logger.info('Starting job', { jobId: job.id, name: job.name });
-
-    // Update job state
     job.status = 'running';
     job.progress = 0;
     job.lastError = null;
@@ -597,7 +539,6 @@ export class RcloneService extends EventEmitter {
     job.speed = 0;
     job.startedAt = new Date();
     this.saveJobs();
-
     this.addLogEntry(
       'info',
       job.id,
@@ -607,17 +548,10 @@ export class RcloneService extends EventEmitter {
     this.emit('jobs:update', this.jobs);
 
     try {
-      // Validate paths
-      if (!job.source || !job.destination) {
+      if (!job.source || !job.destination)
         throw new Error('Source and destination are required');
-      }
-
-      // Check if source exists (for local paths)
-      if (!job.source.includes(':') && !fs.existsSync(job.source)) {
+      if (!job.source.includes(':') && !fs.existsSync(job.source))
         throw new Error(`Source path does not exist: ${job.source}`);
-      }
-
-      // Create destination if it's a remote
       if (job.destination.includes(':')) {
         try {
           await execAsync(
@@ -625,15 +559,20 @@ export class RcloneService extends EventEmitter {
           );
         } catch (e: any) {
           if (e.message.includes("didn't find section")) {
-            const remoteName = job.destination.split(':')[0];
             throw new Error(
-              `Remote "${remoteName}" is not configured. Run: rclone config`
+              `Remote "${job.destination.split(':')[0]}" is not configured.`
             );
           }
         }
       }
 
-      // Run sync with ULTRA PERFORMANCE flags
+      const concurrency = String(job.concurrency || 8);
+      const checkers = String(Math.max(16, (job.concurrency || 8) * 2));
+      const jobTimeout = job.timeout || 30;
+      const jobRetries = job.retries || 10;
+      const timeoutStr = `${jobTimeout}s`;
+      const retriesSleep = '250ms';
+
       const args = [
         'sync',
         job.source,
@@ -653,9 +592,9 @@ export class RcloneService extends EventEmitter {
         'info',
         '--fast-list',
         '--transfers',
-        '32',
+        concurrency,
         '--checkers',
-        '64',
+        checkers,
         '--buffer-size',
         '256M',
         '--multi-thread-streams',
@@ -665,8 +604,20 @@ export class RcloneService extends EventEmitter {
         '--use-mmap',
         '--drive-chunk-size',
         '128M',
+        '--drive-list-chunk',
+        '1000',
         '--s3-upload-concurrency',
         '16',
+        '--b2-upload-concurrency',
+        '32',
+        '--b2-chunk-size',
+        '128M',
+        '--dropbox-batch-mode',
+        'sync',
+        '--dropbox-batch-size',
+        '100',
+        '--dropbox-pacer-min-sleep',
+        '10ms',
         '--max-backlog',
         '1000000',
         '--ignore-errors',
@@ -675,17 +626,49 @@ export class RcloneService extends EventEmitter {
         '--copy-links',
         '--metadata',
         '--retries',
-        '10',
+        String(jobRetries),
         '--retries-sleep',
-        '250ms',
+        retriesSleep,
         '--low-level-retries',
         '10',
         '--timeout',
-        '30s',
+        timeoutStr,
         '--contimeout',
         '10s',
         '-v',
       ];
+
+      // Add provider-specific timeout handling for known problematic providers
+      const sourceType = job.source.split(':')[0];
+      const destType = job.destination.split(':')[0];
+      const providerTypes = [sourceType, destType].filter(
+        (t) =>
+          t &&
+          [
+            'drive',
+            'dropbox',
+            'onedrive',
+            'box',
+            'b2',
+            'azureblob',
+            'pcloud',
+          ].includes(t)
+      );
+
+      // Google Drive specific: increase timeouts for large files
+      if (providerTypes.includes('drive')) {
+        args.push('--timeout', timeoutStr);
+      }
+
+      // Dropbox specific: adjust batch mode for high concurrency
+      if (providerTypes.includes('dropbox')) {
+        args.push('--dropbox-impersonate', 'none');
+      }
+
+      // Backblaze B2 specific: optimize for large files
+      if (providerTypes.includes('b2')) {
+        args.push('--b2-hard-delete');
+      }
 
       const process = spawn('rclone', args);
       this.activeProcesses.set(job.id, process);
@@ -696,14 +679,9 @@ export class RcloneService extends EventEmitter {
         if (now - lastProgressUpdate > 200) {
           lastProgressUpdate = now;
           this.emit('jobs:update', this.jobs);
-          // Construct detailed message
-          let msg = 'Syncing...';
-          if (job.currentFile) {
-            msg = `Syncing: ${job.currentFile}`;
-          } else if ((job.filesTransferred || 0) > 0) {
-            msg = `Transferred ${job.filesTransferred} files...`;
-          }
-
+          let msg = job.currentFile
+            ? `Syncing: ${job.currentFile}`
+            : `Transferred ${job.filesTransferred} files...`;
           this.addLogEntry('progress', job.id, job.name, msg, {
             progress: job.progress,
             speed: job.speed,
@@ -718,96 +696,26 @@ export class RcloneService extends EventEmitter {
       };
 
       this.stderrBuffers.set(job.id, '');
-
       process.stderr?.on('data', (data) => {
-        const chunk = data.toString();
-        let buffer = this.stderrBuffers.get(job.id) || '';
-        buffer += chunk;
-
-        // Split by newline, handle lines
+        let buffer = (this.stderrBuffers.get(job.id) || '') + data.toString();
         const lines = buffer.split('\n');
-
-        // The last item is either an empty string (if ended with \n) or an incomplete line
-        // We keep it in the buffer for the next chunk
-        const remaining = lines.pop() || '';
-        this.stderrBuffers.set(job.id, remaining);
-
+        this.stderrBuffers.set(job.id, lines.pop() || '');
         for (const line of lines) {
           if (!line.trim()) continue;
-
-          // AUTHENTICATION ERROR TRAP
-          if (
-            line.includes("couldn't fetch token") ||
-            line.includes('invalid_client')
-          ) {
-            logger.error('CRITICAL: Rclone Authentication Failed', {
-              jobId: job.id,
-              line,
-            });
-            job.status = 'error';
-            job.lastError =
-              'Google Drive Auth Failed: Invalid Client/Token. Re-authentication required.';
-            this.emit('jobs:update', this.jobs);
-            // Don't kill the process immediately, let it die naturally, but ensure UI knows.
-          }
-
           try {
             const parsed = JSON.parse(line);
-
-            // Pass to stats parser (isJson = true)
             this.parseRcloneOutput(job, line, true);
             if (parsed.stats) emitUpdate();
-
-            if (parsed.level === 'error') {
-              this.addLogEntry(
-                'error',
-                job.id,
-                job.name,
-                parsed.msg || 'Unknown error'
-              );
-            } else if (parsed.level === 'info' || parsed.level === 'notice') {
-              // Parse transfer messages
-              // "Transferred: ..." messages are often stats, we rely on parsed.stats object usually
-              // But normal info logs like "Copied (new)" are useful
-              if (parsed.msg && !parsed.msg.includes('Transferred:')) {
-                this.addLogEntry('info', job.id, job.name, parsed.msg);
-              }
-            }
-          } catch (e) {
-            // Not JSON?
-            // With --use-json-log, almost everything should be JSON.
-            // But sometimes rclone prints raw errors or system messages.
-            if (line.includes('ERROR')) {
-              // logger.error('Error in job', { jobId: job.id, line });
-              this.addLogEntry('error', job.id, job.name, line.trim());
-            }
-          }
+          } catch (e) {}
         }
       });
 
       await new Promise<void>((resolve, reject) => {
         process.on('close', (code, signal) => {
           this.activeProcesses.delete(job.id);
-          this.stderrBuffers.delete(job.id);
-
-          // Check if job was manually stopped (SIGTERM or status set to 'idle')
-          const currentJob = this.jobs.find((j) => j.id === job.id);
-          if (signal === 'SIGTERM' || currentJob?.status === 'idle') {
-            resolve();
-            return;
-          }
-
-          if (code === 0) {
-            resolve();
-          } else {
-            reject(new Error(`rclone exited with code ${code}`));
-          }
-        });
-
-        process.on('error', (err) => {
-          this.activeProcesses.delete(job.id);
-          this.stderrBuffers.delete(job.id);
-          reject(err);
+          if (signal === 'SIGTERM') resolve();
+          else if (code === 0) resolve();
+          else reject(new Error(`rclone exited with code ${code}`));
         });
       });
 
@@ -815,22 +723,16 @@ export class RcloneService extends EventEmitter {
       job.nextRun = new Date(Date.now() + job.intervalMinutes * 60000);
       job.status = 'success';
       job.progress = 100;
-      job.lastError = null;
       job.speed = 0;
-
       const duration = job.startedAt
         ? Math.round((Date.now() - new Date(job.startedAt).getTime()) / 1000)
         : 0;
-
-      logger.info('Completed job', { jobId: job.id, name: job.name });
       this.addLogEntry(
         'success',
         job.id,
         job.name,
         `Sync completed in ${this.formatDuration(duration)}. Transferred ${this.formatBytes(job.bytesTransferred || 0)}`
       );
-
-      // POST-EXECUTION HOOK (Memory Pattern)
       this.updateAnalytics(
         job.id,
         'success',
@@ -838,22 +740,17 @@ export class RcloneService extends EventEmitter {
         job.speed || 0
       );
     } catch (error: any) {
-      logger.error('Job failed', { jobId: job.id, error: error.message });
       job.status = 'error';
       job.lastError = error.message;
       job.speed = 0;
-
       this.addLogEntry(
         'error',
         job.id,
         job.name,
         `Sync failed: ${error.message}`
       );
-
-      // HOOK: Log failure for analytics
       this.updateAnalytics(job.id, 'error', 0, 0);
     }
-
     this.saveJobs();
     this.emit('jobs:update', this.jobs);
   }
@@ -863,120 +760,43 @@ export class RcloneService extends EventEmitter {
     line: string,
     isJson: boolean = false
   ): void {
-    if (!isJson) return; // We only support JSON mode now
-
+    if (!isJson) return;
     try {
       const logEntry = JSON.parse(line);
-
-      // Handle stats
       if (logEntry.stats) {
         job.status = 'running';
-
-        // Rclone stats structure:
-        // {
-        //   bytes: 0,
-        //   checks: 0,
-        //   deletedDirs: 0,
-        //   deletes: 0,
-        //   elapsedTime: 0.500350711,
-        //   errors: 0,
-        //   eta: null,
-        //   fatalError: false,
-        //   renames: 0,
-        //   retryError: false,
-        //   speed: 0, // Bytes per second
-        //   totalBytes: 0,
-        //   totalChecks: 0,
-        //   totalTransfers: 0,
-        //   transferring: [],
-        //   transfers: 0
-        // }
-
-        // SPEED & BANDWIDTH LOGIC
-        // Rclone's reported speed is often an average. We want instantaneous for the "Live Bandwidth" feel.
         const now = Date.now();
         const currentBytes = logEntry.stats.bytes || 0;
-
         if (!job._lastCheckTime) {
           job._lastCheckTime = now;
           job._lastBytes = currentBytes;
           job.speed = 0;
         } else {
           const timeDiffSec = (now - job._lastCheckTime) / 1000;
-          let bytesDiff = currentBytes - (job._lastBytes || 0);
-
-          // Guard against rclone counter resets
-          if (bytesDiff < 0) bytesDiff = 0;
-
-          // 2-second window for stability
+          let bytesDiff = Math.max(0, currentBytes - (job._lastBytes || 0));
           if (timeDiffSec >= 2) {
             const calculatedSpeed = bytesDiff / timeDiffSec;
-
-            // Sanity Cap: 125 MB/s (1 Gbps)
             const MAX_SPEED = 125 * 1024 * 1024;
-            let cappedSpeed =
-              calculatedSpeed > MAX_SPEED ? MAX_SPEED : calculatedSpeed;
-
-            // Smooth transition (0.4 weight on new data)
-            const prevSpeed = job.speed || 0;
-            job.speed = prevSpeed * 0.6 + cappedSpeed * 0.4;
-
-            // Reset tracking for next interval
+            let cappedSpeed = Math.min(calculatedSpeed, MAX_SPEED);
+            job.speed = (job.speed || 0) * 0.6 + cappedSpeed * 0.4;
             job._lastCheckTime = now;
             job._lastBytes = currentBytes;
-
-            // Clean up small values
             if (job.speed < 1024) job.speed = 0;
           }
         }
-
-        if (job.speed !== undefined) {
-          job.lastSpeed = job.speed;
-        }
-
-        if (logEntry.stats.bytes !== undefined)
-          job.bytesTransferred = logEntry.stats.bytes;
-        if (logEntry.stats.totalBytes !== undefined)
-          job.totalBytes = logEntry.stats.totalBytes;
-        if (logEntry.stats.transfers !== undefined)
-          job.filesTransferred = logEntry.stats.transfers;
-        if (logEntry.stats.totalTransfers !== undefined)
-          job.totalFiles = logEntry.stats.totalTransfers;
-
-        // Progress
-        if (job.totalBytes && job.totalBytes > 0) {
-          job.progress = Math.round(
-            (job.bytesTransferred! / job.totalBytes) * 100
-          );
-        } else if (job.totalFiles && job.totalFiles > 0) {
-          job.progress = Math.round(
-            (job.filesTransferred! / job.totalFiles) * 100
-          );
-        } else {
-          job.progress = 0;
-        }
-
-        // ETA
-        if (
-          logEntry.stats.eta !== null &&
-          logEntry.stats.eta !== undefined &&
-          logEntry.stats.eta > 0
-        ) {
+        if (job.speed !== undefined) job.lastSpeed = job.speed;
+        job.bytesTransferred = logEntry.stats.bytes;
+        job.totalBytes = logEntry.stats.totalBytes;
+        job.filesTransferred = logEntry.stats.transfers;
+        job.totalFiles = logEntry.stats.totalTransfers;
+        job.progress = job.totalBytes
+          ? Math.round((job.bytesTransferred! / job.totalBytes) * 100)
+          : job.totalFiles
+            ? Math.round((job.filesTransferred! / job.totalFiles) * 100)
+            : 0;
+        if (logEntry.stats.eta > 0)
           job.eta = this.formatDuration(Math.round(logEntry.stats.eta));
-        } else if (job.speed && job.speed > 0 && job.totalBytes) {
-          const remainingBytes = job.totalBytes - (job.bytesTransferred || 0);
-          if (remainingBytes > 0) {
-            job.eta = this.formatDuration(
-              Math.round(remainingBytes / job.speed)
-            );
-          }
-        }
-
-        // PER-THREAD TRACKING (The "Sync Threads" Fix)
-        if (
-          logEntry.stats.transferring &&
-          logEntry.stats.transferring.length > 0
-        ) {
+        if (logEntry.stats.transferring?.length > 0) {
           job.transferring = logEntry.stats.transferring.map((t: any) => ({
             name: t.name,
             size: t.size,
@@ -986,22 +806,16 @@ export class RcloneService extends EventEmitter {
             speedAvg: t.speedAvg,
             eta: t.eta,
           }));
-
-          // Still keep currentFile for basic UI
-          const firstTransfer = logEntry.stats.transferring[0];
-          job.currentFile = firstTransfer.name;
-          job.currentFileSize = firstTransfer.size;
-          job.currentFileBytes = firstTransfer.bytes;
+          const first = logEntry.stats.transferring[0];
+          job.currentFile = first.name;
+          job.currentFileSize = first.size;
+          job.currentFileBytes = first.bytes;
         } else {
           job.transferring = [];
           delete job.currentFile;
-          delete job.currentFileSize;
-          delete job.currentFileBytes;
         }
       }
-    } catch (e: any) {
-      // logger.debug('Failed to parse rclone JSON output', { error: e.message });
-    }
+    } catch (e) {}
   }
 
   private formatDuration(seconds: number): string {
@@ -1021,81 +835,26 @@ export class RcloneService extends EventEmitter {
   }
 
   private async runScheduler(): Promise<void> {
-    // ULTRATHINK: if offline, skip critical operations to prevent "error"spam
-    if (!this.isOnline) {
-      return;
-    }
-
+    if (!this.isOnline) return;
     const now = new Date();
-
     for (const job of this.jobs) {
       if (job.status === 'running' || job.diffStatus === 'checking') continue;
-
-      const lastDiffCheck = job.lastDiffCheck
-        ? new Date(job.lastDiffCheck)
-        : new Date(0);
-
-      // Check diff every cycle (roughly 60s based on config)
-      const diffFound = await this.checkDiff(job.id);
-
-      if (diffFound) {
+      const lastRun = job.lastRun ? new Date(job.lastRun) : new Date(0);
+      const nextRun = new Date(lastRun.getTime() + job.intervalMinutes * 60000);
+      if (now >= nextRun) {
         this.addLogEntry(
           'info',
           job.id,
           job.name,
-          `Auto-backup triggered: detected ${job.pendingChanges} mission-critical differences.`
+          `Recurring sync cycle reached. Verifying integrity...`
         );
         this.executeJob(job);
-      } else {
-        // Even if no diff found, we might want to run based on intervalMinutes
-        // for absolute certainty or cleanup tasks
-        const lastRun = job.lastRun ? new Date(job.lastRun) : new Date(0);
-        const nextRun = new Date(
-          lastRun.getTime() + job.intervalMinutes * 60000
-        );
-
-        if (now >= nextRun) {
-          this.addLogEntry(
-            'info',
-            job.id,
-            job.name,
-            `Recurring sync cycle reached. Verifying integrity...`
-          );
-          this.executeJob(job);
-        }
       }
-    }
-  }
-
-  // === RCLONE MANAGEMENT ===
-
-  async getRemotes(): Promise<RcloneRemote[]> {
-    try {
-      const { stdout } = await execAsync('rclone listremotes --long');
-      const lines = stdout
-        .trim()
-        .split('\n')
-        .filter((l) => l);
-      return lines
-        .map((line) => {
-          const parts = line.split(':');
-          const name = parts[0];
-          if (!name) return null;
-          return {
-            name,
-            type: parts[1]?.trim() || 'unknown',
-          };
-        })
-        .filter((r): r is RcloneRemote => r !== null);
-    } catch (e) {
-      logger.error('Failed to list remotes', { error: (e as Error).message });
-      return [];
     }
   }
 
   async getStats(): Promise<SyncStats> {
     const runningJobs = this.jobs.filter((j) => j.status === 'running');
-
     return {
       speed: runningJobs.reduce((sum, j) => sum + (j.speed || 0), 0),
       bytes: runningJobs.reduce((sum, j) => sum + (j.bytesTransferred || 0), 0),
@@ -1141,87 +900,48 @@ export class RcloneService extends EventEmitter {
     remotePath: string = ''
   ): Promise<any[]> {
     try {
-      let fullPath = '';
-
-      if (!remoteName) {
-        // Local filesystem - default to / or use absolute path
-        fullPath = remotePath || '/';
-      } else {
-        fullPath = remoteName;
-        if (!fullPath.includes(':') && !fullPath.startsWith('/')) {
-          fullPath += ':';
-        }
-        if (remotePath) {
-          const cleanRemotePath = remotePath.startsWith('/')
-            ? remotePath.slice(1)
-            : remotePath;
-          fullPath = `${fullPath}${cleanRemotePath}`;
-        }
-      }
-
-      logger.debug('Listing path...', { fullPath });
-      const { stdout, stderr } = await execAsync(
+      let fullPath = remoteName
+        ? remoteName.includes(':') || remoteName.startsWith('/')
+          ? remoteName
+          : `${remoteName}:`
+        : remotePath || '/';
+      if (remoteName && remotePath)
+        fullPath += remotePath.startsWith('/')
+          ? remotePath.slice(1)
+          : remotePath;
+      const { stdout } = await execAsync(
         `rclone lsjson "${fullPath}" --timeout ${config.rclone.timeout}s`
       );
-
-      if (stderr && stderr.includes('ERROR')) {
-        logger.warn('rclone lsjson reported errors', {
-          stderr,
-          path: fullPath,
-        });
-      }
-
       return JSON.parse(stdout);
     } catch (e: any) {
-      logger.error('Failed to list remote path', {
-        error: e.message,
-        remote: remoteName,
-        path: remotePath,
-      });
       throw new Error(`Listing failed: ${e.message}`);
     }
   }
+
   private loadActivityLog(): void {
     try {
       const logFile = path.join(config.paths.data, 'activity.json');
       if (fs.existsSync(logFile)) {
         const data = JSON.parse(fs.readFileSync(logFile, 'utf-8'));
-        // Ensure dates are Date objects
         this.activityLog = data.map((e: any) => ({
           ...e,
           timestamp: new Date(e.timestamp),
         }));
-
-        // Sort Oldest -> Newest (Ascending)
         this.activityLog.sort(
           (a, b) => a.timestamp.getTime() - b.timestamp.getTime()
         );
-
-        // Limit to last 500 entries (tail)
-        if (this.activityLog.length > 500) {
+        if (this.activityLog.length > 500)
           this.activityLog = this.activityLog.slice(-500);
-        }
       }
-    } catch (error) {
-      logger.error('Failed to load activity log', {
-        error: (error as Error).message,
-      });
-    }
+    } catch (error) {}
   }
 
   private saveActivityLog(): void {
     try {
       const logFile = path.join(config.paths.data, 'activity.json');
-      // Ensure data directory exists
       const dir = path.dirname(logFile);
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-      }
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
       fs.writeFileSync(logFile, JSON.stringify(this.activityLog, null, 2));
-    } catch (error) {
-      logger.error('Failed to save activity log', {
-        error: (error as Error).message,
-      });
-    }
+    } catch (error) {}
   }
 }

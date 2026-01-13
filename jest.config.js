@@ -8,6 +8,7 @@ module.exports = {
   ],
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
+    '^.+\\.(js|jsx)$': 'babel-jest',
   },
   collectCoverageFrom: [
     'packages/*/src/**/*.{ts,tsx}',
@@ -22,13 +23,14 @@ module.exports = {
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  moduleNameMapping: {
+  moduleNameMapper: {
     '^@shared/(.*)$': '<rootDir>/packages/shared/src/$1',
     '^@sync-engine/(.*)$': '<rootDir>/packages/sync-engine/src/$1',
     '^@api-server/(.*)$': '<rootDir>/packages/api-server/src/$1',
     '^@database/(.*)$': '<rootDir>/packages/database/src/$1',
   },
   testTimeout: 10000,
+  testPathIgnorePatterns: ['/node_modules/', '<rootDir>/apps/rclone-webui/'],
   verbose: true,
   forceExit: true,
   clearMocks: true,

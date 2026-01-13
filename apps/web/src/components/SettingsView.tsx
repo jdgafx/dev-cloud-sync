@@ -37,6 +37,7 @@ interface SettingsConfig {
   sync: {
     intervalMinutes: number;
     maxConcurrent: number;
+    defaultConcurrency: number; // Added for multi-threading
     conflictResolution: 'newer' | 'larger' | 'local' | 'remote';
     deleteEmpty: boolean;
   };
@@ -62,6 +63,7 @@ const defaultSettings: SettingsConfig = {
   sync: {
     intervalMinutes: 5,
     maxConcurrent: 2,
+    defaultConcurrency: 8,
     conflictResolution: 'newer',
     deleteEmpty: false,
   },
@@ -322,6 +324,26 @@ export function SettingsView() {
                 )
               }
               className='w-20 text-center'
+            />
+          </SettingRow>
+          <Separator />
+          <SettingRow
+            label='Default Upload Concurrency'
+            description='Threads per sync job (1-1000)'
+          >
+            <Input
+              type='number'
+              min={1}
+              max={1000}
+              value={settings.sync.defaultConcurrency}
+              onChange={(e) =>
+                updateSetting(
+                  'sync',
+                  'defaultConcurrency',
+                  parseInt(e.target.value) || 8
+                )
+              }
+              className='w-24 text-center'
             />
           </SettingRow>
           <Separator />

@@ -1,46 +1,72 @@
-  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+@layer base {
   :root {
-    /* Lovable-inspired Sophisticated Dark Palette */
-    --background: 240 10% 4%;
-    --foreground: 0 0% 98%;
-    
-    --card: 240 10% 6%;
-    --card-foreground: 0 0% 98%;
-    
-    --popover: 240 10% 4%;
-    --popover-foreground: 0 0% 98%;
-    
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    
-    /* Brand Accents (Subtle) */
-    --brand: 211 100% 50%;
-    
-    --radius: 0.75rem;
+    /* === LOVABLE-INSPIRED SOPHISTICATED COLOR PALETTE === */
+    /* Primary: Rich indigo/violet tones */
+    --background: 222 47% 5%;
+    --foreground: 210 40% 98%;
 
-    --font-sans: 'Plus Jakarta Sans', sans-serif;
+    /* Cards and surfaces */
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 6%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Primary brand color - vibrant indigo */
+    --primary: 252 100% 68%;
+    --primary-foreground: 222 47% 11%;
+
+    /* Secondary - soft violet */
+    --secondary: 264 100% 85%;
+    --secondary-foreground: 222 47% 11%;
+
+    /* Muted tones */
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    /* Accent - coral/salmon for highlights */
+    --accent: 346 100% 68%;
+    --accent-foreground: 222 47% 11%;
+
+    /* Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Borders and inputs */
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 252 100% 68%;
+
+    /* Success - emerald */
+    --success: 142 76% 36%;
+    --success-foreground: 210 40% 98%;
+
+    /* Warning - amber */
+    --warning: 38 92% 50%;
+    --warning-foreground: 222 47% 11%;
+
+    /* === DIMENSIONS === */
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    --radius-2xl: 2rem;
+
+    /* === FONTS === */
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
   }
 
   body {
@@ -48,200 +74,148 @@
     background: hsl(var(--background));
     color: hsl(var(--foreground));
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     letter-spacing: -0.01em;
   }
 
-  /* === THE GLASS CANARY === */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* === GLASS MORPHISM EFFECTS === */
   .glass {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
   }
 
-  .glass-heavy {
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(40px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+  /* === CARD STYLES === */
+  .card-premium {
+    background-color: hsla(var(--card) / 0.5);
+    backdrop-filter: blur(24px);
+    border: 1px solid hsla(var(--border) / 0.5);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
   }
 
-  /* === BORDER BEAMS & GRADIENTS === */
-  .border-beam {
-    position: relative;
-    overflow: hidden;
+  .card-premium:hover {
+    border-color: hsla(var(--primary) / 0.3);
+    box-shadow: 0 20px 40px -15px hsla(var(--primary) / 0.15);
+    transform: translateY(-2px);
   }
 
-  .border-beam::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(from 0deg,
-        transparent 0%,
-        hsl(var(--primary)) 20%,
-        transparent 40%);
-    animation: rotate-beam 4s linear infinite;
-    opacity: 0.15;
-    pointer-events: none;
-  }
-
-  @keyframes rotate-beam {
+  /* === ANIMATIONS === */
+  @keyframes fadeIn {
     from {
-      transform: rotate(0deg);
+      opacity: 0;
     }
-
     to {
-      transform: rotate(360deg);
+      opacity: 1;
     }
   }
 
-  /* === MASKED GRADIENT BORDER === */
-  .gradient-border {
-    position: relative;
-  }
-
-  .gradient-border::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(135deg,
-        hsla(var(--primary), 0.4),
-        hsla(var(--secondary), 0.4),
-        hsla(var(--accent), 0.4));
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-  }
-
-  /* === MICRO-INTERACTIONS === */
-  .hover-lift {
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
-  }
-
-  .hover-lift:hover {
-    transform: translateY(-6px) scale(1.01);
-    box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
-  }
-
-  .btn-glow:hover {
-    box-shadow: 0 0 20px -2px hsla(var(--primary), 0.5);
-  }
-
-  /* === GLOW EFFECTS === */
-  .glow-emerald {
-    box-shadow: 0 0 30px -5px hsla(var(--primary), 0.3);
-  }
-
-  .glow-blue {
-    box-shadow: 0 0 30px -5px hsla(var(--secondary), 0.3);
-  }
-
-  .glow-red {
-    box-shadow: 0 0 30px -5px hsla(var(--danger), 0.3);
-  }
-
-  .glow-purple {
-    box-shadow: 0 0 30px -5px hsla(var(--accent), 0.3);
-  }
-
-  /* === STATUS BEAM === */
-  .status-beam {
-    height: 2px;
-    width: 100%;
-    background: linear-gradient(90deg,
-        transparent 0%,
-        hsl(var(--primary)) 20%,
-        hsl(var(--secondary)) 50%,
-        hsl(var(--accent)) 80%,
-        transparent 100%);
-    background-size: 200% 100%;
-    animation: beam-flow 2s linear infinite;
-  }
-
-  @keyframes beam-flow {
-    0% {
-      background-position: 200% 0;
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
     }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%,
     100% {
+      box-shadow: 0 0 20px hsla(var(--primary) / 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px hsla(var(--primary) / 0.5);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
       background-position: -200% 0;
     }
-  }
-
-  .animate-pulse-slow {
-    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-
-  @keyframes rotate-slow {
-    from {
-      transform: rotate(0deg);
-    }
-
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  .animate-spin-slow {
-    animation: rotate-slow 8s linear infinite;
-  }
-
-  /* === ASYMMETRIC GRID === */
-  .bento-grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 1rem;
-  }
-
-  /* === TYPOGRAPHY SCALING === */
-  .h-hero {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    letter-spacing: -0.05em;
-    font-weight: 800;
-    line-height: 0.9;
-  }
-
-  .h-section {
-    font-size: clamp(1.25rem, 3vw, 2.25rem);
-    letter-spacing: -0.03em;
-    font-weight: 700;
-  }
-
-  .t-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    opacity: 0.5;
-  }
-
-  /* === SHIMMER === */
-  .shimmer {
-    background: linear-gradient(90deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.03) 50%,
-        rgba(255, 255, 255, 0) 100%);
-    background-size: 200% 100%;
-    animation: shimmer-anim 3s infinite;
-  }
-
-  @keyframes shimmer-anim {
-    0% {
-      background-position: 100% 0;
-    }
-
     100% {
-      background-position: -100% 0;
+      background-position: 200% 0;
     }
   }
 
-  /* === SCROLLBAR (Minimalist) === */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+  }
+
+  .animate-slide-down {
+    animation: slideDown 0.5s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out forwards;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* === SHIMMER EFFECT FOR LOADING === */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.03) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  /* === SCROLLBAR STYLING === */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -252,11 +226,78 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    transition: background 0.3s ease;
+    background: hsl(var(--muted));
+    border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: hsla(var(--primary), 0.4);
+    background: hsl(var(--muted-foreground) / 0.5);
   }
+}
+
+@layer utilities {
+  /* === TEXT GRADIENTS === */
+  .text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(
+      to right,
+      hsl(var(--primary)),
+      hsl(var(--secondary)),
+      hsl(var(--accent))
+    );
+  }
+
+  .text-gradient-primary {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(
+      to right,
+      hsl(var(--primary)),
+      hsla(var(--primary) / 0.6)
+    );
+  }
+
+  /* === GLOW EFFECTS === */
+  .glow-primary {
+    box-shadow: 0 0 30px -5px hsla(var(--primary) / 0.3);
+  }
+
+  .glow-success {
+    box-shadow: 0 0 30px -5px hsla(var(--success) / 0.3);
+  }
+
+  .glow-warning {
+    box-shadow: 0 0 30px -5px hsla(var(--warning) / 0.3);
+  }
+
+  .glow-error {
+    box-shadow: 0 0 30px -5px hsla(var(--destructive) / 0.3);
+  }
+
+  /* === RESPONSIVE TYPOGRAPHY === */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* === NO SELECT === */
+  .no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+}
+
+/* === CHART STYLES FOR RECHARTS === */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: hsla(var(--border) / 0.5);
+}
+
+.recharts-text {
+  fill: hsl(var(--muted-foreground));
+  font-size: 12px;
+}

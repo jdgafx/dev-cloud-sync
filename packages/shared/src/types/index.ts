@@ -4,7 +4,10 @@
 
 import { z } from 'zod';
 
-// User related types
+/**
+ * Schema for a platform user.
+ * Includes unique identifier, credentials, and account status.
+ */
 export const UserSchema = z.object({
   id: z.string().uuid(),
   email: z.string().email(),
@@ -28,7 +31,10 @@ export const CreateUserSchema = UserSchema.omit({
 
 export type CreateUser = z.infer<typeof CreateUserSchema>;
 
-// File related types
+/**
+ * Schema for a file managed by the platform.
+ * Contains metadata, size, checksum, and storage path.
+ */
 export const FileSchema = z.object({
   id: z.string().uuid(),
   userId: z.string().uuid(),
@@ -54,7 +60,10 @@ export const CreateFileSchema = FileSchema.omit({
 
 export type CreateFile = z.infer<typeof CreateFileSchema>;
 
-// Sync related types
+/**
+ * Schema for a synchronization operation.
+ * Tracks the movement, creation, update, or deletion of files across remotes.
+ */
 export const SyncOperationSchema = z.object({
   id: z.string().uuid(),
   userId: z.string().uuid(),
@@ -62,7 +71,9 @@ export const SyncOperationSchema = z.object({
   operation: z.enum(['create', 'update', 'delete', 'move']),
   sourcePath: z.string(),
   targetPath: z.string().optional(),
-  status: z.enum(['pending', 'in_progress', 'completed', 'failed']).default('pending'),
+  status: z
+    .enum(['pending', 'in_progress', 'completed', 'failed'])
+    .default('pending'),
   errorMessage: z.string().optional(),
   createdAt: z.date(),
   completedAt: z.date().optional(),
@@ -102,7 +113,9 @@ export const PaginatedResponseSchema = z.object({
   }),
 });
 
-export type PaginatedResponse<T = any> = z.infer<typeof PaginatedResponseSchema> & {
+export type PaginatedResponse<T = any> = z.infer<
+  typeof PaginatedResponseSchema
+> & {
   data: T[];
 };
 

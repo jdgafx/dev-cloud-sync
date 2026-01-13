@@ -7,77 +7,68 @@
     "intervalMinutes": 1,
     "status": "idle",
     "progress": 0,
-    "bytesTransferred": 363874874,
-    "filesTransferred": 3091,
+    "bytesTransferred": 4014384019,
+    "filesTransferred": 76375,
     "speed": 0,
-    "totalFiles": 165898,
-    "totalBytes": 9992911204,
+    "totalFiles": 128082,
+    "totalBytes": 4774427195,
     "nextRun": "2025-12-31T14:18:03.968Z",
     "lastError": null,
-    "startedAt": "2026-01-12T18:34:01.358Z",
-    "lastSpeed": 73492.63981829229,
+    "startedAt": "2026-01-12T23:57:04.200Z",
+    "lastSpeed": 2143.209148142197,
     "lastRun": "2025-12-31T14:17:03.968Z",
-    "eta": "12h 24m",
-    "_lastCheckTime": 1768244541169,
-    "_lastBytes": 354237049,
+    "eta": "110h 26m",
+    "_lastCheckTime": 1768282008559,
+    "_lastBytes": 4014384019,
     "transferring": [
       {
-        "name": "cloud-sync-system3/goose-recipes/documentation/docs/assets/goose-in-action.gif",
-        "size": 9612132,
-        "bytes": 9612132,
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/bomb.svg",
+        "size": 425,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-alert.svg",
+        "size": 196,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-arrow-down-outline.svg",
+        "size": 258,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-arrow-left.svg",
+        "size": 244,
+        "bytes": 244,
         "percentage": 100,
-        "speed": 11141691.677703546,
-        "speedAvg": 1201516.8123943713,
+        "speed": 57481.22908060187,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-arrow-up-outline.svg",
+        "size": 255,
+        "bytes": 255,
+        "percentage": 100,
+        "speed": 219.06535510239775,
+        "speedAvg": 28.333319308340275,
         "eta": 0
       },
       {
-        "name": "moondev-algotrade2/.auto-claude/worktrees/tasks/008-pending/atc_bootcamp/9_more_indicators/9_vwma.py",
-        "size": 11501,
-        "bytes": 11501,
-        "percentage": 100,
-        "speed": 91981.35484112962,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/worktrees/tasks/008-pending/atc_bootcamp/9_more_indicators/pandas_ta_review.py",
-        "size": 692,
-        "bytes": 692,
-        "percentage": 100,
-        "speed": 5533.162373008626,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/worktrees/tasks/008-pending/atc_bootcamp/9_more_indicators/talib_review.py",
-        "size": 1378,
-        "bytes": 1378,
-        "percentage": 100,
-        "speed": 11009.963617583217,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/FeatureCard.tsx",
-        "size": 2871,
-        "bytes": 2871,
-        "percentage": 100,
-        "speed": 22913.33629517402,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/FeatureDetailPanel.tsx",
-        "size": 9251,
-        "bytes": 9251,
-        "percentage": 100,
-        "speed": 74067.44178846315,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/PhaseCard.tsx",
-        "size": 5314,
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-cancel.svg",
+        "size": 456,
         "bytes": 0,
         "percentage": 0,
         "speed": 0,
@@ -85,8 +76,8 @@
         "eta": null
       },
       {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/README.md",
-        "size": 5255,
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-check-outline.svg",
+        "size": 273,
         "bytes": 0,
         "percentage": 0,
         "speed": 0,
@@ -94,8 +85,8 @@
         "eta": null
       },
       {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/RoadmapEmptyState.tsx",
-        "size": 900,
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-edit.svg",
+        "size": 321,
         "bytes": 0,
         "percentage": 0,
         "speed": 0,
@@ -103,169 +94,7 @@
         "eta": null
       },
       {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/RoadmapHeader.tsx",
-        "size": 5402,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/RoadmapTabs.tsx",
-        "size": 5149,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/hooks.ts",
-        "size": 7542,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/index.ts",
-        "size": 524,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/types.ts",
-        "size": 1539,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/frontend/src/renderer/components/roadmap/utils.ts",
-        "size": 951,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/Activate.ps1",
-        "size": 9031,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/activate.csh",
-        "size": 961,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/activate.fish",
-        "size": 2232,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/activate",
-        "size": 2254,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/distro",
-        "size": 253,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/dotenv",
-        "size": 253,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/f2py",
-        "size": 257,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/httpx",
-        "size": 245,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/jsonschema",
-        "size": 254,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/mcp",
-        "size": 245,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/normalizer",
-        "size": 274,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/numpy-config",
-        "size": 257,
-        "bytes": 0,
-        "percentage": 0,
-        "speed": 0,
-        "speedAvg": 0,
-        "eta": null
-      },
-      {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/openai",
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-education-outline.svg",
         "size": 250,
         "bytes": 0,
         "percentage": 0,
@@ -274,8 +103,8 @@
         "eta": null
       },
       {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/pip3.13",
-        "size": 262,
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-education.svg",
+        "size": 249,
         "bytes": 0,
         "percentage": 0,
         "speed": 0,
@@ -283,8 +112,8 @@
         "eta": null
       },
       {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/pip3",
-        "size": 262,
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-heart-outline.svg",
+        "size": 340,
         "bytes": 0,
         "percentage": 0,
         "speed": 0,
@@ -292,8 +121,8 @@
         "eta": null
       },
       {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/pip",
-        "size": 262,
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-heart.svg",
+        "size": 321,
         "bytes": 0,
         "percentage": 0,
         "speed": 0,
@@ -301,8 +130,179 @@
         "eta": null
       },
       {
-        "name": "moondev-algotrade2/.auto-claude/engine/apps/backend/venv/bin/pyrsa-decrypt",
-        "size": 253,
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-information-variant.svg",
+        "size": 536,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-lock-open-outline.svg",
+        "size": 426,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-lock-open.svg",
+        "size": 455,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-lock-outline.svg",
+        "size": 426,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-lock.svg",
+        "size": 455,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-marker-outline.svg",
+        "size": 397,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-marker.svg",
+        "size": 385,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-minus-multiple-outline.svg",
+        "size": 280,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-minus-multiple.svg",
+        "size": 267,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-minus-outline.svg",
+        "size": 246,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-minus.svg",
+        "size": 231,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-multiple-outline.svg",
+        "size": 214,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-multiple.svg",
+        "size": 197,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-music-outline.svg",
+        "size": 288,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-music.svg",
+        "size": 283,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-off-outline.svg",
+        "size": 286,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-off.svg",
+        "size": 261,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-open-blank-variant-outline.svg",
+        "size": 584,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-open-blank-variant.svg",
+        "size": 490,
+        "bytes": 0,
+        "percentage": 0,
+        "speed": 0,
+        "speedAvg": 0,
+        "eta": null
+      },
+      {
+        "name": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/book-open-outline.svg",
+        "size": 222,
         "bytes": 0,
         "percentage": 0,
         "speed": 0,
@@ -311,8 +311,8 @@
       }
     ],
     "diffStatus": "checking",
-    "currentFile": "cloud-sync-system3/goose-recipes/documentation/docs/assets/goose-in-action.gif",
-    "currentFileSize": 9612132,
-    "currentFileBytes": 9612132
+    "currentFile": "claude_code_agent_farm/.venv/lib/python3.13/site-packages/material/templates/.icons/material/bomb.svg",
+    "currentFileSize": 425,
+    "currentFileBytes": 0
   }
 ]
