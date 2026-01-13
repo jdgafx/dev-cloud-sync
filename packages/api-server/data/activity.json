@@ -1,477 +1,5 @@
 [
   {
-    "id": "1768271736190-qhs8jmaoo",
-    "timestamp": "2026-01-13T02:35:36.190Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736197-6zf1eah4x",
-    "timestamp": "2026-01-13T02:35:36.197Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736205-7evc8jd3r",
-    "timestamp": "2026-01-13T02:35:36.205Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736265-2gr5cm9lp",
-    "timestamp": "2026-01-13T02:35:36.265Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736274-z86gwq6tq",
-    "timestamp": "2026-01-13T02:35:36.274Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736283-5u5bqbmyb",
-    "timestamp": "2026-01-13T02:35:36.283Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736291-0wm61imxl",
-    "timestamp": "2026-01-13T02:35:36.291Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736298-2ug1leg0d",
-    "timestamp": "2026-01-13T02:35:36.298Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736306-1gtzg2al0",
-    "timestamp": "2026-01-13T02:35:36.306Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736313-wupy7kgh1",
-    "timestamp": "2026-01-13T02:35:36.313Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736337-545njkdrs",
-    "timestamp": "2026-01-13T02:35:36.337Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736370-81idz6pdq",
-    "timestamp": "2026-01-13T02:35:36.370Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736413-tmk9zkq6a",
-    "timestamp": "2026-01-13T02:35:36.413Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736423-lf71rp15j",
-    "timestamp": "2026-01-13T02:35:36.423Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736482-0inex36c1",
-    "timestamp": "2026-01-13T02:35:36.482Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736511-epbei9r0x",
-    "timestamp": "2026-01-13T02:35:36.511Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736552-d5gliibv7",
-    "timestamp": "2026-01-13T02:35:36.552Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736561-00yog6sh0",
-    "timestamp": "2026-01-13T02:35:36.561Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736571-2wiimmt2g",
-    "timestamp": "2026-01-13T02:35:36.571Z",
-    "type": "progress",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Syncing: moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib64/python3.13/site-packages/h11/_connection.py",
-    "details": {
-      "progress": 65,
-      "speed": 82824.06107184169,
-      "bytesTransferred": 3100122314,
-      "filesTransferred": 33277,
-      "eta": "2h 46m",
-      "fileName": "moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib64/python3.13/site-packages/h11/_connection.py",
-      "fileSize": 26863,
-      "totalBytes": 4773891817
-    }
-  },
-  {
-    "id": "1768271736629-1ucl06g2k",
-    "timestamp": "2026-01-13T02:35:36.629Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736636-fffu6y5jy",
-    "timestamp": "2026-01-13T02:35:36.636Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736642-0ybsnofnh",
-    "timestamp": "2026-01-13T02:35:36.642Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736649-f65rql1bv",
-    "timestamp": "2026-01-13T02:35:36.649Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736656-y2vghb9hs",
-    "timestamp": "2026-01-13T02:35:36.656Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736665-8vteey6or",
-    "timestamp": "2026-01-13T02:35:36.665Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736706-sitjqlthm",
-    "timestamp": "2026-01-13T02:35:36.706Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271736745-a1vz4drun",
-    "timestamp": "2026-01-13T02:35:36.745Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271737174-37aogc4fa",
-    "timestamp": "2026-01-13T02:35:37.174Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271737207-skt9d5sc2",
-    "timestamp": "2026-01-13T02:35:37.207Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271737557-kvx55svds",
-    "timestamp": "2026-01-13T02:35:37.557Z",
-    "type": "progress",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Syncing: moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/realtime/input_audio_buffer_append_event_param.py",
-    "details": {
-      "progress": 65,
-      "speed": 82824.06107184169,
-      "bytesTransferred": 3100122314,
-      "filesTransferred": 33287,
-      "eta": "2h 57m",
-      "fileName": "moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/realtime/input_audio_buffer_append_event_param.py",
-      "fileSize": 1612,
-      "totalBytes": 4773891817
-    }
-  },
-  {
-    "id": "1768271737576-xq16bnpmz",
-    "timestamp": "2026-01-13T02:35:37.576Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271737715-30e0pzo7j",
-    "timestamp": "2026-01-13T02:35:37.715Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271738557-hpfuvc8wo",
-    "timestamp": "2026-01-13T02:35:38.557Z",
-    "type": "progress",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Syncing: moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/realtime/input_audio_buffer_append_event_param.py",
-    "details": {
-      "progress": 65,
-      "speed": 82824.06107184169,
-      "bytesTransferred": 3100122314,
-      "filesTransferred": 33289,
-      "eta": "3h 9m",
-      "fileName": "moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/realtime/input_audio_buffer_append_event_param.py",
-      "fileSize": 1612,
-      "totalBytes": 4773891817
-    }
-  },
-  {
-    "id": "1768271739556-yakvji97t",
-    "timestamp": "2026-01-13T02:35:39.556Z",
-    "type": "progress",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Syncing: moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/realtime/input_audio_buffer_append_event_param.py",
-    "details": {
-      "progress": 65,
-      "speed": 49694.43664310501,
-      "bytesTransferred": 3100122314,
-      "filesTransferred": 33289,
-      "eta": "3h 21m",
-      "fileName": "moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/realtime/input_audio_buffer_append_event_param.py",
-      "fileSize": 1612,
-      "totalBytes": 4773891817
-    }
-  },
-  {
-    "id": "1768271740556-mt8fnm271",
-    "timestamp": "2026-01-13T02:35:40.556Z",
-    "type": "progress",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Syncing: moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/realtime/input_audio_buffer_append_event_param.py",
-    "details": {
-      "progress": 65,
-      "speed": 49694.43664310501,
-      "bytesTransferred": 3100122314,
-      "filesTransferred": 33289,
-      "eta": "3h 35m",
-      "fileName": "moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/realtime/input_audio_buffer_append_event_param.py",
-      "fileSize": 1612,
-      "totalBytes": 4773891817
-    }
-  },
-  {
-    "id": "1768271741556-cb76uc2d9",
-    "timestamp": "2026-01-13T02:35:41.556Z",
-    "type": "progress",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Syncing: moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/realtime/input_audio_buffer_append_event_param.py",
-    "details": {
-      "progress": 65,
-      "speed": 30032.461985863003,
-      "bytesTransferred": 3100123393,
-      "filesTransferred": 33289,
-      "eta": "3h 49m",
-      "fileName": "moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/realtime/input_audio_buffer_append_event_param.py",
-      "fileSize": 1612,
-      "totalBytes": 4773891817
-    }
-  },
-  {
-    "id": "1768271742292-8sa2h2kr9",
-    "timestamp": "2026-01-13T02:35:42.292Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271742555-nii0bc846",
-    "timestamp": "2026-01-13T02:35:42.555Z",
-    "type": "progress",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Syncing: moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/realtime/input_audio_buffer_append_event_param.py",
-    "details": {
-      "progress": 65,
-      "speed": 30032.461985863003,
-      "bytesTransferred": 3100133515,
-      "filesTransferred": 33290,
-      "eta": "4h 4m",
-      "fileName": "moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/realtime/input_audio_buffer_append_event_param.py",
-      "fileSize": 1612,
-      "totalBytes": 4773891817
-    }
-  },
-  {
-    "id": "1768271742901-98somlvgf",
-    "timestamp": "2026-01-13T02:35:42.901Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271742905-y3bf7y9cv",
-    "timestamp": "2026-01-13T02:35:42.905Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271743208-u65sr26b6",
-    "timestamp": "2026-01-13T02:35:43.208Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271743213-a6mnli2pw",
-    "timestamp": "2026-01-13T02:35:43.213Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271743216-t9btjhzaw",
-    "timestamp": "2026-01-13T02:35:43.216Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271743322-gr6waevz4",
-    "timestamp": "2026-01-13T02:35:43.322Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271743329-ctrgd9h8r",
-    "timestamp": "2026-01-13T02:35:43.329Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271743337-ov49cbnkp",
-    "timestamp": "2026-01-13T02:35:43.337Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271743554-q170e04wj",
-    "timestamp": "2026-01-13T02:35:43.554Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
-    "id": "1768271743559-sbyp26idf",
-    "timestamp": "2026-01-13T02:35:43.559Z",
-    "type": "progress",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Syncing: moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/realtime/mcp_list_tools_failed.py",
-    "details": {
-      "progress": 65,
-      "speed": 20423.67090095365,
-      "bytesTransferred": 3100135432,
-      "filesTransferred": 33299,
-      "eta": "4h 19m",
-      "fileName": "moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/realtime/mcp_list_tools_failed.py",
-      "fileSize": 528,
-      "totalBytes": 4773891817
-    }
-  },
-  {
-    "id": "1768271744028-8xmy7j0tg",
-    "timestamp": "2026-01-13T02:35:44.028Z",
-    "type": "info",
-    "jobId": "1766683587225",
-    "jobName": "Full Dev Backup",
-    "message": "Copied (new)"
-  },
-  {
     "id": "1768271744032-t540rex0w",
     "timestamp": "2026-01-13T02:35:44.032Z",
     "type": "info",
@@ -9906,6 +9434,448 @@
       "eta": "10h 12m",
       "fileName": "moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/responses/response_input_file_content_param.py",
       "fileSize": 809,
+      "totalBytes": 4773891817
+    }
+  },
+  {
+    "id": "1768271927362-ydowsaheq",
+    "timestamp": "2026-01-13T02:38:47.362Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271927418-y0caggpd4",
+    "timestamp": "2026-01-13T02:38:47.418Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271927437-vio5cycjj",
+    "timestamp": "2026-01-13T02:38:47.437Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271927450-1nzahtz11",
+    "timestamp": "2026-01-13T02:38:47.450Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271927544-jtoh347bz",
+    "timestamp": "2026-01-13T02:38:47.544Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271927555-cga5uatxs",
+    "timestamp": "2026-01-13T02:38:47.556Z",
+    "type": "progress",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Syncing: moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/responses/response_input_image_content.py",
+    "details": {
+      "progress": 66,
+      "speed": 7948.683310515438,
+      "bytesTransferred": 3130946094,
+      "filesTransferred": 34073,
+      "eta": "10h 48m",
+      "fileName": "moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/responses/response_input_image_content.py",
+      "fileSize": 934,
+      "totalBytes": 4773891817
+    }
+  },
+  {
+    "id": "1768271927736-sms5jqn81",
+    "timestamp": "2026-01-13T02:38:47.736Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271928556-rb1m7hqpw",
+    "timestamp": "2026-01-13T02:38:48.556Z",
+    "type": "progress",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Syncing: moondev-algotrade/trading_env/lib64/python3.13/site-packages/joblib/__init__.py",
+    "details": {
+      "progress": 66,
+      "speed": 32156.9161332358,
+      "bytesTransferred": 3131083101,
+      "filesTransferred": 34074,
+      "eta": "11h 31m",
+      "fileName": "moondev-algotrade/trading_env/lib64/python3.13/site-packages/joblib/__init__.py",
+      "fileSize": 5337,
+      "totalBytes": 4773891817
+    }
+  },
+  {
+    "id": "1768271928760-28jcj1d9h",
+    "timestamp": "2026-01-13T02:38:48.760Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271928765-lxdqj1b8t",
+    "timestamp": "2026-01-13T02:38:48.765Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271928769-wy0cbluqz",
+    "timestamp": "2026-01-13T02:38:48.769Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271928773-p55gu7584",
+    "timestamp": "2026-01-13T02:38:48.773Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271928781-fhw4bv9qd",
+    "timestamp": "2026-01-13T02:38:48.781Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271928823-pa7ndbwn0",
+    "timestamp": "2026-01-13T02:38:48.823Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271928901-0aua7zguw",
+    "timestamp": "2026-01-13T02:38:48.901Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271928954-knxd8vg62",
+    "timestamp": "2026-01-13T02:38:48.954Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929000-n6wc8h38b",
+    "timestamp": "2026-01-13T02:38:49.000Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929011-4nkpyuho6",
+    "timestamp": "2026-01-13T02:38:49.011Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929055-fclpqk151",
+    "timestamp": "2026-01-13T02:38:49.055Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929064-bstyewkt8",
+    "timestamp": "2026-01-13T02:38:49.064Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929084-b38z2xpyb",
+    "timestamp": "2026-01-13T02:38:49.084Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929109-8lov3wwxj",
+    "timestamp": "2026-01-13T02:38:49.109Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929131-o87c96qhm",
+    "timestamp": "2026-01-13T02:38:49.131Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929180-nei8547sk",
+    "timestamp": "2026-01-13T02:38:49.180Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929555-1xmh6es5e",
+    "timestamp": "2026-01-13T02:38:49.555Z",
+    "type": "progress",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Syncing: moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/responses/response_input_item.py",
+    "details": {
+      "progress": 66,
+      "speed": 32156.9161332358,
+      "bytesTransferred": 3131350082,
+      "filesTransferred": 34090,
+      "eta": "9h 59m",
+      "fileName": "moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/responses/response_input_item.py",
+      "fileSize": 15925,
+      "totalBytes": 4773891817
+    }
+  },
+  {
+    "id": "1768271929663-y14926e6i",
+    "timestamp": "2026-01-13T02:38:49.663Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929685-9k0steppu",
+    "timestamp": "2026-01-13T02:38:49.685Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929692-syize3moe",
+    "timestamp": "2026-01-13T02:38:49.692Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929760-cywzo37cb",
+    "timestamp": "2026-01-13T02:38:49.760Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929767-pwnlbkqfb",
+    "timestamp": "2026-01-13T02:38:49.767Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929795-iwru6kmhr",
+    "timestamp": "2026-01-13T02:38:49.795Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929802-18va88qxk",
+    "timestamp": "2026-01-13T02:38:49.802Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929817-rz8lkdpv3",
+    "timestamp": "2026-01-13T02:38:49.817Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929825-6x38p8vlx",
+    "timestamp": "2026-01-13T02:38:49.825Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929832-ga47ui0gb",
+    "timestamp": "2026-01-13T02:38:49.832Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929854-4zhx94b6l",
+    "timestamp": "2026-01-13T02:38:49.854Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929912-w22zhun5m",
+    "timestamp": "2026-01-13T02:38:49.912Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929919-p1se258pr",
+    "timestamp": "2026-01-13T02:38:49.919Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929961-ggywl7ti3",
+    "timestamp": "2026-01-13T02:38:49.961Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929983-taavpzc2u",
+    "timestamp": "2026-01-13T02:38:49.983Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929994-3x8m7ac7i",
+    "timestamp": "2026-01-13T02:38:49.994Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271929999-s5uos2ts8",
+    "timestamp": "2026-01-13T02:38:50.000Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271930004-ew24pv4hl",
+    "timestamp": "2026-01-13T02:38:50.004Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271930021-oo6aa4zh8",
+    "timestamp": "2026-01-13T02:38:50.021Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271930036-lwks5ppju",
+    "timestamp": "2026-01-13T02:38:50.036Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271930261-mduw2vb4m",
+    "timestamp": "2026-01-13T02:38:50.261Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271930556-h277w4sax",
+    "timestamp": "2026-01-13T02:38:50.556Z",
+    "type": "progress",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Syncing: moondev-algotrade/trading_env/lib/python3.13/site-packages/joblib/hashing.py",
+    "details": {
+      "progress": 66,
+      "speed": 32156.9161332358,
+      "bytesTransferred": 3131360776,
+      "filesTransferred": 34111,
+      "eta": "7h 39m",
+      "fileName": "moondev-algotrade/trading_env/lib/python3.13/site-packages/joblib/hashing.py",
+      "fileSize": 10694,
+      "totalBytes": 4773891817
+    }
+  },
+  {
+    "id": "1768271930900-1k2zkaflx",
+    "timestamp": "2026-01-13T02:38:50.900Z",
+    "type": "info",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Copied (new)"
+  },
+  {
+    "id": "1768271931556-zbaosqd0l",
+    "timestamp": "2026-01-13T02:38:51.556Z",
+    "type": "progress",
+    "jobId": "1766683587225",
+    "jobName": "Full Dev Backup",
+    "message": "Syncing: moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/responses/response_input_text_content_param.py",
+    "details": {
+      "progress": 66,
+      "speed": 56317.48301327482,
+      "bytesTransferred": 3131360776,
+      "filesTransferred": 34112,
+      "eta": "8h 4m",
+      "fileName": "moondev-algotrade2/.auto-claude/engine/apps/backend/.venv/lib/python3.13/site-packages/openai/types/responses/response_input_text_content_param.py",
+      "fileSize": 493,
       "totalBytes": 4773891817
     }
   }
